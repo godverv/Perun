@@ -1,0 +1,21 @@
+### Connect local velez
+POST {{perun}}/velez
+Content-Type: application/json
+
+{
+  "node": {
+    "name": "local_dev",
+    "addr": "0.0.0.0:50051",
+    "security_disabled": true
+  }
+}
+
+### Run service
+POST {{perun}}/service/run
+Content-Type: application/json
+
+{
+  "image_name": "redsockdev/red-cart:v0.0.13",
+  "service_name": "red-cart",
+  "replication_factor": 1
+}

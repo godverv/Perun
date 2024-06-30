@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package perun_api;
+
+import "google/api/annotations.proto";
+
+option go_package = "/perun_api";
+
+service PerunAPI {
+  rpc Version(Version.Request) returns (Version.Response) {
+    option (google.api.http) = {
+      get: "/version"
+    };
+  };
+
+  rpc ConnectVelez(ConnectVelez.Request) returns (ConnectVelez.Response) {
+    option (google.api.http) = {
+      post: "/velez"
+      body: "*"
+    };
+  }
+
+  rpc ListNodes(ListNodes.Request) returns (ListNodes.Response) {
+    option (google.api.http) = {
+      post: "/velez/list"
+      body: "*"
+    };
+  }
+
+  rpc RunService(RunService.Request)returns (RunService.Response) {
+    option (google.api.http) = {
+      post: "/service/run"
+      body: "*"
+    };
+  }
+}
+
+message Version {
+  message Request {}
+
+  message Response {
+    string version = 1;
+  }
+}
+
+message Node {
+  string name = 1;
+  string addr = 2;
+  optional string custom_velez_key_path = 6;
+  optional bool security_disabled = 7;
+}
+
+message Ssh {
+  bytes key_base64 = 1;
+  string addr = 2;
+  string username = 3;
+}
+
+message ConnectVelez {
+  message Request {
+    Node node = 1;
+    Ssh ssh = 2;
+  }
+
+  message Response {}
+}
+
+message ListPaging {
+  uint32 limit = 1;
+  uint32 offset = 2;
+}
+
+message ListNodes {
+  message Request{
+    optional string search_pattern = 1;
+    ListPaging paging = 2;
+  }
+
+  message Response {
+    repeated Node nodes = 1;
+  }
+}
+
+message RunService {
+  message Request {
+    string image_name = 1;
+    string service_name = 2;
+    // the amount of replicas needed to start and support running
+    uint32 replication_factor = 3;
+  }
+
+  message Response {
+
+  }
+}
