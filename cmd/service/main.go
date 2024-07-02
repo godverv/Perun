@@ -2,9 +2,11 @@ package main
 
 import (
 	"context"
+	"database/sql"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/sirupsen/logrus"
@@ -16,9 +18,11 @@ import (
 	"github.com/Red-Sock/Perun/internal/data/storage"
 	"github.com/Red-Sock/Perun/internal/service"
 	"github.com/Red-Sock/Perun/internal/service/v1"
+	"github.com/Red-Sock/Perun/internal/tasks/warm_up_cache"
 	"github.com/Red-Sock/Perun/internal/transport/grpc"
 	"github.com/Red-Sock/Perun/internal/transport/grpc/perun"
 	"github.com/Red-Sock/Perun/internal/utils/closer"
+	"github.com/Red-Sock/Perun/internal/utils/cron"
 	//_transport_imports
 )
 
@@ -56,10 +60,9 @@ func start() error {
 		return errors.Wrap(err, "error initializing storage")
 	}
 
-	srv, err := v1.NewService(ctx, store, matreshkaBeClient)
-	if err != nil {
-		return errors.Wrap(err, "error initializing node service")
-	}
+	srv := v1.NewService(store, matreshkaBeClient)
+
+	cronWarmCache(store)
 
 	err = runGrpcServer(ctx, cfg, srv)
 	if err != nil {
@@ -75,28 +78,32 @@ func start() error {
 
 // rscli comment: an obligatory function for tool to work properly.
 // must be called in the main function above
-// also this is a LP song name reference, so no rules can be applied to the function name
+// also this is an LP song name reference, so no rules can be applied to the function name
 func waitingForTheEnd() {
 	done := make(chan os.Signal, 1)
 	signal.Notify(done, os.Interrupt, syscall.SIGINT, syscall.SIGTERM)
 	<-done
 }
 
-func initStorage(cfg config.Config) (data.Storage, error) {
-	sqliteConn, err := cfg.GetDataSources().Sqlite(config.ResourceSqlite)
-	if err != nil {
-		return nil, errors.Wrap(err, "error initializing sqlite client")
-	}
+func initStorage(cfg config.Config) (data.Data, error) {
+	var provider *sql.DB
+	{
+		sqliteConn, err := cfg.GetDataSources().Sqlite(config.ResourceSqlite)
+		if err != nil {
+			return nil, errors.Wrap(err, "error initializing sqlite client")
+		}
 
-	provider, err := sqlite.NewProvider(sqliteConn)
-	if err != nil {
-		return nil, errors.Wrap(err, "error initializing sqlite storage")
+		provider, err = sqlite.NewProvider(sqliteConn)
+		if err != nil {
+			return nil, errors.Wrap(err, "error initializing sqlite storage")
+		}
 	}
 
 	s, err := storage.NewStorage(provider)
 	if err != nil {
 		return nil, errors.Wrap(err, "error creating storage")
 	}
+
 	return s, nil
 }
 
@@ -121,4 +128,8 @@ func runGrpcServer(ctx context.Context, cfg config.Config, srv service.Services)
 	closer.Add(func() error { return grpcApi.Stop(ctx) })
 
 	return nil
+}
+
+func cronWarmCache(d data.Data) {
+	cron.New(time.Minute, warm_up_cache.New(d).Do)
 }

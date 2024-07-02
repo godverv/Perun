@@ -3,20 +3,24 @@ package nodes_service
 import (
 	"context"
 
+	errors "github.com/Red-Sock/trace-errors"
+
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (n *nodesService) PickNodes(_ context.Context, req domain.PickNodeReq) ([]domain.Node, error) {
-	nodes := make([]domain.Node, 0, req.ReplicationFactor)
+func (n *NodesService) PickNodes(ctx context.Context, req domain.PickNodeReq) ([]domain.Node, error) {
+	velezConnections, err := n.nodesStore.ListLeastUsedNodes(ctx, req)
+	if err != nil {
+		return nil, errors.Wrap(err, "error listing velezConnections")
+	}
+	nodesNames := make([]string, 0, len(velezConnections))
+	for _, node := range velezConnections {
+		nodesNames = append(nodesNames, node.Node.Name)
+	}
 
-	i := uint32(0)
-	for _, node := range n.nodes {
-		if i == req.ReplicationFactor {
-			break
-		}
-
-		nodes = append(nodes, node)
-		i++
+	nodes, err := n.connectionsCache.Get(nodesNames...)
+	if err != nil {
+		return nil, errors.Wrap(err, "error getting nodes by name from cache")
 	}
 
 	return nodes, nil

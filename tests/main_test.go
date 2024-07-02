@@ -1,41 +1,102 @@
 package tests
 
 import (
+	"context"
 	"os"
 	"testing"
 
-	errors "github.com/Red-Sock/trace-errors"
+	dockerCompose "github.com/harrim91/docker-compose-go/client"
 	"github.com/sirupsen/logrus"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/Red-Sock/Perun/internal/utils/test_utils/docker"
+	"github.com/Red-Sock/Perun/pkg/perun_api"
 )
 
 type TestEnv struct {
-	dockerClient *docker.Docker
+	perunApi perun_api.PerunAPIClient
+
+	clean func()
 }
 
 var env TestEnv
 
 func TestMain(m *testing.M) {
-	var err error
-	env, err = initTestEnv()
-	if err != nil {
-		logrus.Error(err.Error())
-		os.Exit(1)
-	}
 	var code int
-	defer os.Exit(code)
+	defer func() {
+		os.Exit(code)
+	}()
 
-	defer env.dockerClient.TearDown()
+	initCompose()
+	defer env.clean()
+
+	initApi()
 
 	code = m.Run()
 }
 
-func initTestEnv() (env TestEnv, err error) {
-	env.dockerClient, err = docker.Init()
+func initCompose() {
+	composeOpts := &dockerCompose.GlobalOptions{
+		Files: []string{"./int_test.docker-compose.yaml"},
+	}
+	compose := dockerCompose.New(composeOpts)
+
+	buildC, err := compose.Build(nil, os.Stdout)
 	if err != nil {
-		return env, errors.Wrap(err, "error initializing docker client")
+		logrus.Fatal(err, "error building")
+	}
+	err = <-buildC
+	if err != nil {
+		logrus.Fatal(err, "error during build")
 	}
 
-	return env, nil
+	upOptions := &dockerCompose.UpOptions{
+		Detach: true,
+	}
+
+	upC, err := compose.Up(upOptions, os.Stdout)
+	if err != nil {
+		logrus.Fatal(err, "error starting containers")
+	}
+
+	err = <-upC
+	if err != nil {
+		logrus.Fatal(err, "error during start")
+	}
+
+	env.clean = func() {
+		dC, err := compose.Down(nil, os.Stdout)
+		if err != nil {
+			logrus.Fatal(err, "error cleaning up")
+		}
+
+		err = <-dC
+		if err != nil {
+			logrus.Fatal(err, "error during clean")
+		}
+	}
+}
+
+func initApi() {
+	cl, err := grpc.NewClient("0.0.0.0:50052", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		logrus.Fatal(err)
+	}
+	env.perunApi = perun_api.NewPerunAPIClient(cl)
+
+	ctx := context.Background()
+
+	securityDisabled := true
+
+	connectVelezReq := &perun_api.ConnectVelez_Request{
+		Node: &perun_api.Node{
+			Name:             "int_test_velez",
+			Addr:             "0.0.0.0:53890",
+			SecurityDisabled: &securityDisabled,
+		},
+	}
+	_, err = env.perunApi.ConnectVelez(ctx, connectVelezReq)
+	if err != nil {
+		logrus.Fatal(err)
+	}
 }

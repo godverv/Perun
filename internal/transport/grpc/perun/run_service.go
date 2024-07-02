@@ -36,7 +36,6 @@ func (impl *Implementation) RunService(
 
 func (impl *Implementation) pickNodes(ctx context.Context, req *perun_api.RunService_Request) ([]domain.Node, error) {
 	pickNodeReq := domain.PickNodeReq{
-		ServiceName:       req.ServiceName,
 		ReplicationFactor: req.ReplicationFactor,
 	}
 	nodes, err := impl.nodeService.PickNodes(ctx, pickNodeReq)

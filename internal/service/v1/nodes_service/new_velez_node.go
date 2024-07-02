@@ -12,7 +12,7 @@ import (
 
 const defaultVelezKeyPath = "/tmp/velez/private.key"
 
-func (n *nodesService) NewVelezConnection(ctx context.Context, in domain.VelezConnection) (err error) {
+func (n *NodesService) NewVelezConnection(ctx context.Context, in domain.VelezConnection) (err error) {
 	if in.Node.CustomVelezKeyPath == "" {
 		in.Node.CustomVelezKeyPath = defaultVelezKeyPath
 	}

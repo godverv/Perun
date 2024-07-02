@@ -5,7 +5,6 @@ import (
 )
 
 type PickNodeReq struct {
-	ServiceName       string
 	ReplicationFactor uint32
 }
 

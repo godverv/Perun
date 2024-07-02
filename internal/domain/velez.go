@@ -1,6 +1,6 @@
 package domain
 
-type VelezConn struct {
+type Velez struct {
 	Name               string
 	Addr               string
 	CustomVelezKeyPath string
@@ -14,7 +14,7 @@ type Ssh struct {
 }
 
 type VelezConnection struct {
-	Node VelezConn
+	Node Velez
 	Ssh  Ssh
 }
 

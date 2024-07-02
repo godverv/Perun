@@ -6,6 +6,6 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (n *nodesService) ListNodes(ctx context.Context, nodes domain.ListVelezNodes) ([]domain.VelezConn, error) {
+func (n *NodesService) ListNodes(ctx context.Context, nodes domain.ListVelezNodes) ([]domain.VelezConnection, error) {
 	return n.nodesStore.ListNodes(ctx, nodes)
 }

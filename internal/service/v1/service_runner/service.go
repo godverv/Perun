@@ -10,7 +10,7 @@ type serviceRunner struct {
 	resourceData    data.Resources
 }
 
-func New(resourceService service.ResourceService, resourceData data.Storage) *serviceRunner {
+func New(resourceService service.ResourceService, resourceData data.Data) *serviceRunner {
 	p := &serviceRunner{
 		resourceService: resourceService,
 		resourceData:    resourceData.Resources(),

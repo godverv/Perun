@@ -6,17 +6,20 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-type Storage interface {
+type Data interface {
 	Nodes() Nodes
 	Resources() Resources
+
+	Connections() ConnectionCache
 }
 
 type Nodes interface {
 	GetConnection(ctx context.Context, key string) (*domain.VelezConnection, error)
 	SaveConnection(ctx context.Context, in domain.VelezConnection) error
 
-	ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]domain.VelezConn, error)
+	ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]domain.VelezConnection, error)
 	ListConnections(ctx context.Context, req domain.ListVelezNodes) ([]domain.VelezConnection, error)
+	ListLeastUsedNodes(ctx context.Context, req domain.PickNodeReq) ([]domain.VelezConnection, error)
 }
 
 type Resources interface {
@@ -24,4 +27,9 @@ type Resources interface {
 	Create(ctx context.Context, resource domain.Resource) error
 
 	UpdateState(ctx context.Context, changeState domain.UpdateState) error
+}
+
+type ConnectionCache interface {
+	Add(nodes ...domain.Node)
+	Get(names ...string) ([]domain.Node, error)
 }

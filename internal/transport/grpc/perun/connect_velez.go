@@ -33,7 +33,7 @@ func fromVelezNode(in *perun_api.ConnectVelez_Request) (domain.VelezConnection, 
 	}
 
 	return domain.VelezConnection{
-		Node: domain.VelezConn{
+		Node: domain.Velez{
 			Name:               in.GetNode().GetName(),
 			Addr:               in.GetNode().GetAddr(),
 			CustomVelezKeyPath: in.GetNode().GetCustomVelezKeyPath(),

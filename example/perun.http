@@ -19,3 +19,6 @@ Content-Type: application/json
   "service_name": "red-cart",
   "replication_factor": 1
 }
+
+### GET Version
+GET http://localhost:53890/version

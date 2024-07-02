@@ -1,9 +1,6 @@
 package v1
 
 import (
-	"context"
-
-	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 
 	"github.com/Red-Sock/Perun/internal/data"
@@ -20,18 +17,16 @@ type services struct {
 	runner service.RunnerService
 }
 
-func NewService(ctx context.Context, storage data.Storage, client matreshka_api.MatreshkaBeAPIClient) (service.Services, error) {
-	nodes, err := nodes_service.New(ctx, storage)
-	if err != nil {
-		return nil, errors.Wrap(err, "error initializing nodes_service")
-	}
+func NewService(storage data.Data, client matreshka_api.MatreshkaBeAPIClient) service.Services {
+	nodes := nodes_service.New(storage)
+
 	resources := resource_service.New(client)
 
 	return &services{
 		nodes:     nodes,
 		resources: resources,
 		runner:    service_runner.New(resources, storage),
-	}, nil
+	}
 }
 
 func (s *services) Resources() service.ResourceService {

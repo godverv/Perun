@@ -1,0 +1,23 @@
+services:
+  velez_int_test:
+    image: godverv/velez:v0.1.41
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "53890:53890"
+    environment:
+      - VERV_NAME=velez
+      - VELEZ_DATA-SOURCES_GRGPC-MATRESHKA-BE_CONNECTION-STRING=matreshka_int_test:50050
+      - VELEZ_ENVIRONMENT_DISABLE-API-SECURITY=true
+      - VELEZ_ENVIRONMENT_NODE-MODE=false
+    networks:
+      - int_test
+  matreshka_int_test:
+    image: godverv/matreshka-be:v1.0.29
+    ports:
+      - "50050:50050"
+    networks:
+      - int_test
+networks:
+   int_test:
+    name: perun_int_test_network

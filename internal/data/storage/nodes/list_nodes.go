@@ -13,7 +13,7 @@ const (
 	nodesLimitMin = 10
 )
 
-func (p *Provider) ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]domain.VelezConn, error) {
+func (p *Provider) ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]domain.VelezConnection, error) {
 	if req.Limit > nodesLimitMax {
 		req.Limit = nodesLimitMax
 	}
@@ -23,11 +23,15 @@ func (p *Provider) ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]
 
 	row, err := p.db.QueryContext(ctx, `
 		SELECT 
-		    node_name,
-		    velez_addr,
-		    custom_velez_key_path,
-		    insecure
-		FROM nodes
+		    n.node_name,
+		    n.velez_addr,
+		    n.custom_velez_key_path,
+			n.insecure,
+			
+			n.ssh_addr,
+			n.ssh_key,
+			n.ssh_user_name
+		FROM nodes n
 		WHERE node_name LIKE '%'||$1||'%'
 		LIMIT $2 OFFSET $3
 `, req.SearchPattern, req.Limit, req.Offset)
@@ -36,21 +40,10 @@ func (p *Provider) ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]
 	}
 	defer row.Close()
 
-	nodes := make([]domain.VelezConn, 0, req.Limit)
+	nodes := make([]domain.VelezConnection, 0, req.Limit)
 
 	for row.Next() {
-		var node domain.VelezConn
-		err = row.Scan(
-			&node.Name,
-			&node.Addr,
-			&node.CustomVelezKeyPath,
-			&node.IsInsecure,
-		)
-		if err != nil {
-			return nil, errors.Wrap(err, "error scanning row")
-		}
-
-		nodes = append(nodes, node)
+		nodes = append(nodes, scanVelezConnection(row))
 	}
 
 	err = row.Err()

@@ -35,17 +35,17 @@ func fromPaging(in *perun_api.ListPaging) domain.Paging {
 	}
 }
 
-func toVelezNodes(nodes []domain.VelezConn) []*perun_api.Node {
+func toVelezNodes(nodes []domain.VelezConnection) []*perun_api.Node {
 	out := make([]*perun_api.Node, 0, len(nodes))
 
 	for _, n := range nodes {
-		out = append(out, toVelezNode(n))
+		out = append(out, toVelezNode(n.Node))
 	}
 
 	return out
 }
 
-func toVelezNode(node domain.VelezConn) *perun_api.Node {
+func toVelezNode(node domain.Velez) *perun_api.Node {
 	out := &perun_api.Node{
 		Name: node.Name,
 		Addr: node.Addr,
