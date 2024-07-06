@@ -3,9 +3,6 @@ package perun
 import (
 	"context"
 
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-
 	"github.com/Red-Sock/Perun/internal/async_services/run_service"
 	"github.com/Red-Sock/Perun/pkg/perun_api"
 )
@@ -19,10 +16,7 @@ func (impl *Implementation) RunService(
 		ImageName:         req.ImageName,
 		ReplicationFactor: req.ReplicationFactor,
 	}
-	err := impl.runService.Run(ctx, runServiceReq)
-	if err != nil {
-		return nil, status.Errorf(codes.Internal, err.Error())
-	}
+	impl.createServiceQ <- runServiceReq
 
 	return &perun_api.RunService_Response{}, nil
 }
