@@ -40,7 +40,7 @@ func (s *SyncDependenciesStep) Do(ctx context.Context, r *RunServiceReq) error {
 
 	nextNode := loop_over.LoopOver(r.Nodes)
 
-	for _, dep := range dependencies.Smerds {
+	for _, dep := range dependencies.Dependencies {
 		var res *domain.Resource
 		res, err = s.resourceData.Get(ctx, dep.Name)
 		if err != nil {

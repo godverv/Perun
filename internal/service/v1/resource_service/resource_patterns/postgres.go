@@ -21,11 +21,11 @@ func Postgres(resources matreshka.DataSources, resourceName, serviceName string)
 	if pg.Host == "" {
 		pg.Host = pg.GetName()
 	}
+	var dependency domain.Dependency
+	dependency.Name = serviceName + "_pg"
 
-	name := serviceName + "_pg"
-
-	smerdDep := &velez_api.CreateSmerd_Request{
-		Name:      name,
+	dependency.SmerdReq = &velez_api.CreateSmerd_Request{
+		Name:      dependency.Name,
 		ImageName: "postgres:13.6",
 		Hardware:  &velez_api.Container_Hardware{},
 		Env: map[string]string{
@@ -41,6 +41,6 @@ func Postgres(resources matreshka.DataSources, resourceName, serviceName string)
 		},
 	}
 
-	deps.Smerds = append(deps.Smerds, smerdDep)
+	deps.Dependencies = append(deps.Dependencies, dependency)
 	return deps, nil
 }

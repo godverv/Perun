@@ -51,15 +51,13 @@ func (r *RunServiceStep) Do(ctx context.Context, req *RunServiceReq) error {
 			return errors.Wrap(err, "error creating smerd on node")
 		}
 
-		if len(resourceInstance.Ports) == 0 {
-			return errors.Wrap(ErrCreatedResourceHasNoPortsToAccess, "services didn't return any ports for deployed service")
-		}
-
 		updateStateReq := domain.Resource{
 			ResourceName: req.ServiceName, // TODO handle multiple instances on different nodes
 			NodeName:     node.Name,
 			State:        domain.ResourceStateCreated,
-			Port:         resourceInstance.Ports[0].Host,
+		}
+		if len(resourceInstance.Ports) != 0 {
+			updateStateReq.Port = resourceInstance.Ports[0].Host
 		}
 
 		err = r.resourceData.Update(ctx, updateStateReq)

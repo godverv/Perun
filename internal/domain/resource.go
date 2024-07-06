@@ -5,7 +5,7 @@ import (
 )
 
 type Dependencies struct {
-	Smerds []Dependency
+	Dependencies []Dependency
 }
 
 type Dependency struct {

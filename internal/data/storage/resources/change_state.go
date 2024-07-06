@@ -8,11 +8,19 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (p *Storage) UpdateState(ctx context.Context, changeState domain.UpdateState) error {
+func (p *Storage) Update(ctx context.Context, req domain.Resource) error {
 	_, err := p.db.ExecContext(ctx, `
 		UPDATE resources 
-		SET state = $1
-		WHERE resource_full_name = $2`, changeState.State, changeState.ResourceName)
+		SET 
+			node_name = $1,
+			state = $2,
+			port = $3
+		WHERE resource_full_name = $4`,
+		req.NodeName,
+		req.State,
+		req.Port,
+		req.ResourceName,
+	)
 	if err != nil {
 		return errors.Wrap(err, "error performing sql update")
 	}

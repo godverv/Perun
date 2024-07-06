@@ -26,7 +26,6 @@ type Resources interface {
 	Get(ctx context.Context, name string) (*domain.Resource, error)
 	Create(ctx context.Context, resource domain.Resource) error
 
-	UpdateState(ctx context.Context, changeState domain.UpdateState) error
 	Update(ctx context.Context, resource domain.Resource) error
 }
 

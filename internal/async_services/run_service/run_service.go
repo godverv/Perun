@@ -45,6 +45,7 @@ func New(
 			NewGetNodesStep(services.Nodes()),
 			NewPreSyncConfigStep(),
 			NewSyncDependenciesStep(services.Resources(), data.Resources()),
+			NewRunServiceStep(data.Resources()),
 		},
 
 		maxParallel: 2,
