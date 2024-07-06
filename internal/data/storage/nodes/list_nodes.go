@@ -24,12 +24,13 @@ func (p *Provider) ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]
 	row, err := p.db.QueryContext(ctx, `
 		SELECT 
 		    n.node_name,
-		    n.velez_addr,
+		    n.addr,
+		    n.velez_port,
 		    n.custom_velez_key_path,
-			n.insecure,
+			n.is_insecure,
 			
-			n.ssh_addr,
 			n.ssh_key,
+			n.ssh_port,
 			n.ssh_user_name
 		FROM nodes n
 		WHERE node_name LIKE '%'||$1||'%'

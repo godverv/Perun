@@ -7,7 +7,7 @@ services:
       - "53890:53890"
     environment:
       - VERV_NAME=velez
-      - VELEZ_DATA-SOURCES_GRGPC-MATRESHKA-BE_CONNECTION-STRING=matreshka_int_test:50050
+      - VELEZ_DATA-SOURCES_GRPC-MATRESHKA-BE_CONNECTION-STRING=host.docker.internal:50050
       - VELEZ_ENVIRONMENT_DISABLE-API-SECURITY=true
       - VELEZ_ENVIRONMENT_NODE-MODE=false
     networks:

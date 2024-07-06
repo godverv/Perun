@@ -5,6 +5,6 @@ import (
 )
 
 type RunServiceRequest struct {
-	Constructor *velez_api.CreateSmerd_Request
-	Nodes       []Node
+	Constructor       *velez_api.CreateSmerd_Request
+	ReplicationFactor uint32
 }

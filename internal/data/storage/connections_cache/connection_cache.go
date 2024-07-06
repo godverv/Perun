@@ -1,4 +1,4 @@
-package connections
+package connections_cache
 
 import (
 	"sync"

@@ -2,6 +2,7 @@ package resources
 
 import (
 	"context"
+	"database/sql"
 
 	errors "github.com/Red-Sock/trace-errors"
 
@@ -22,6 +23,9 @@ func (p *Storage) Get(ctx context.Context, name string) (res *domain.Resource, e
 `, name).
 		Scan(&res.NodeName)
 	if err != nil {
+		if errors.Is(err, sql.ErrNoRows) {
+			return nil, nil
+		}
 		return res, errors.Wrap(err, "error reading resource from db")
 	}
 

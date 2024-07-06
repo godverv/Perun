@@ -6,7 +6,7 @@ import (
 	_ "modernc.org/sqlite"
 
 	"github.com/Red-Sock/Perun/internal/data"
-	"github.com/Red-Sock/Perun/internal/data/storage/connections"
+	"github.com/Red-Sock/Perun/internal/data/storage/connections_cache"
 	"github.com/Red-Sock/Perun/internal/data/storage/nodes"
 	"github.com/Red-Sock/Perun/internal/data/storage/resources"
 )
@@ -19,7 +19,7 @@ const (
 type Store struct {
 	nodes            *nodes.Provider
 	resources        *resources.Storage
-	connectionsCache *connections.ConnectionCache
+	connectionsCache *connections_cache.ConnectionCache
 }
 
 func NewStorage(conn *sql.DB) (data.Data, error) {
@@ -27,7 +27,7 @@ func NewStorage(conn *sql.DB) (data.Data, error) {
 		nodes:     nodes.NewStorage(conn),
 		resources: resources.NewProvider(conn),
 
-		connectionsCache: connections.NewConnectionCache(),
+		connectionsCache: connections_cache.NewConnectionCache(),
 	}, nil
 }
 

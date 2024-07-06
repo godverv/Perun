@@ -11,6 +11,7 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/sirupsen/logrus"
 
+	"github.com/Red-Sock/Perun/internal/async_services/run_service"
 	grpcResource "github.com/Red-Sock/Perun/internal/clients/grpc"
 	"github.com/Red-Sock/Perun/internal/clients/sqlite"
 	"github.com/Red-Sock/Perun/internal/config"
@@ -43,11 +44,7 @@ func start() error {
 		return errors.Wrap(err, "error reading config")
 	}
 
-	if cfg.GetAppInfo().StartupDuration == 0 {
-		return errors.New("no startup duration in config")
-	}
-
-	ctx, cancel := context.WithTimeout(ctx, cfg.GetAppInfo().StartupDuration)
+	ctx, cancel := context.WithCancel(ctx)
 	closer.Add(func() error { cancel(); return nil })
 
 	matreshkaBeClient, err := grpcResource.NewMatreshkaBeAPIClient(ctx, cfg)
@@ -64,7 +61,9 @@ func start() error {
 
 	cronWarmCache(store)
 
-	err = runGrpcServer(ctx, cfg, srv)
+	runServiceQ := run_service.New(srv, store).Run(ctx)
+
+	err = runGrpcServer(ctx, cfg, srv, runServiceQ)
 	if err != nil {
 		return errors.Wrap(err, "error running server")
 	}
@@ -107,13 +106,13 @@ func initStorage(cfg config.Config) (data.Data, error) {
 	return s, nil
 }
 
-func runGrpcServer(ctx context.Context, cfg config.Config, srv service.Services) error {
+func runGrpcServer(ctx context.Context, cfg config.Config, srv service.Services, runServiceQ chan<- run_service.RunServiceReq) error {
 	grpcServerCfg, err := cfg.GetServers().GRPC(config.ServerGrpc)
 	if err != nil {
 		return errors.Wrap(err, "error getting grpc server config")
 	}
 
-	perunImp := perun.New(cfg, srv.Nodes(), srv.Runner())
+	perunImp := perun.New(cfg, srv.Nodes(), runServiceQ)
 
 	grpcApi, err := grpc.NewServer(grpcServerCfg, perunImp)
 	if err != nil {

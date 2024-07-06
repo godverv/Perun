@@ -41,7 +41,7 @@ func fromVelezNode(in *perun_api.ConnectVelez_Request) (domain.VelezConnection, 
 		},
 		Ssh: domain.Ssh{
 			Key:      in.GetSsh().GetKeyBase64(),
-			Addr:     in.GetSsh().GetAddr(),
+			Port:     in.GetSsh().GetPort(),
 			Username: in.GetSsh().GetUsername(),
 		},
 	}, nil

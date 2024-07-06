@@ -25,7 +25,7 @@ export type Node = {
 
 export type Ssh = {
   keyBase64?: Uint8Array;
-  addr?: string;
+  port?: string;
   username?: string;
 };
 

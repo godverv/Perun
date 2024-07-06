@@ -19,12 +19,13 @@ func (p *Provider) ListConnections(ctx context.Context, req domain.ListVelezNode
 	row, err := p.db.QueryContext(ctx, `
 		SELECT 
 		    node_name,
-		    velez_addr,
+		    addr,
+		    velez_port,
 		    custom_velez_key_path,
-		    insecure,
+		    is_insecure,
 		    
 		    ssh_key,
-		    ssh_addr,
+		    ssh_port,
 		    ssh_user_name
 		FROM nodes
 		WHERE node_name LIKE '%'||$1||'%'
@@ -42,11 +43,12 @@ func (p *Provider) ListConnections(ctx context.Context, req domain.ListVelezNode
 		err = row.Scan(
 			&conn.Node.Name,
 			&conn.Node.Addr,
+			&conn.Node.Port,
 			&conn.Node.CustomVelezKeyPath,
 			&conn.Node.IsInsecure,
 
 			&conn.Ssh.Key,
-			&conn.Ssh.Addr,
+			&conn.Ssh.Port,
 			&conn.Ssh.Username,
 		)
 		if err != nil {

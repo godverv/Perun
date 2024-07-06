@@ -2,12 +2,14 @@
 CREATE TABLE IF NOT EXISTS nodes
 (
     node_name             TEXT PRIMARY KEY,
-    ssh_key               TEXT,
-    ssh_addr              TEXT,
-    ssh_user_name         TEXT,
-    velez_addr            TEXT,
+    addr                  TEXT,
+    velez_port            INT,
     custom_velez_key_path TEXT,
-    insecure              BOOLEAN
+    is_insecure           BOOLEAN,
+
+    ssh_key               TEXT,
+    ssh_port              INT,
+    ssh_user_name         TEXT
 );
 -- +goose Down
 

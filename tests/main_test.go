@@ -27,8 +27,8 @@ func TestMain(m *testing.M) {
 		os.Exit(code)
 	}()
 
-	initCompose()
-	defer env.clean()
+	//initCompose()
+	//defer env.clean()
 
 	initApi()
 

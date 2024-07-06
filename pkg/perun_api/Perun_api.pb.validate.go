@@ -266,7 +266,7 @@ func (m *Ssh) validate(all bool) error {
 
 	// no validation rules for KeyBase64
 
-	// no validation rules for Addr
+	// no validation rules for Port
 
 	// no validation rules for Username
 

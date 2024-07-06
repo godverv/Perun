@@ -29,9 +29,9 @@ func getVelezKey(velezConn domain.VelezConnection) ([]byte, error) {
 		},
 	}
 
-	tcpConn, err := ssh.Dial("tcp", velezConn.Ssh.Addr, clientConfig)
+	tcpConn, err := ssh.Dial("tcp", velezConn.Node.Addr, clientConfig)
 	if err != nil {
-		return nil, errors.Wrap(err, "error connecting to "+velezConn.Ssh.Addr)
+		return nil, errors.Wrap(err, "error connecting to "+velezConn.Node.Addr)
 	}
 
 	sshClient, err := sftp.NewClient(tcpConn)

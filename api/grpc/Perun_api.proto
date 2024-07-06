@@ -52,7 +52,7 @@ message Node {
 
 message Ssh {
   bytes key_base64 = 1;
-  string addr = 2;
+  uint64 port = 2;
   string username = 3;
 }
 

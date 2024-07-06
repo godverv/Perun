@@ -38,3 +38,10 @@ gen-server-grpc: .pre-gen-server-grpc .deps-grpc .gen-server-grpc
     	--go_out=./pkg/ \
 	    --validate_out="lang=go:./pkg" \
     	./api/grpc/*.proto
+
+
+# ===================
+# =INTEGRATION TESTS=
+# ===================
+.e2e-env:
+	docker compose -f tests/e2e.docker-compose.yaml up

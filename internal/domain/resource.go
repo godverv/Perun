@@ -5,8 +5,12 @@ import (
 )
 
 type Dependencies struct {
-	Smerds  []*velez_api.CreateSmerd_Request
-	Volumes []*velez_api.VolumeBindings
+	Smerds []Dependency
+}
+
+type Dependency struct {
+	Name     string
+	SmerdReq *velez_api.CreateSmerd_Request
 }
 
 type resourceState int
@@ -22,9 +26,5 @@ type Resource struct {
 	ResourceName string
 	NodeName     string
 	State        resourceState
-}
-
-type UpdateState struct {
-	ResourceName string
-	State        resourceState
+	Port         uint32
 }

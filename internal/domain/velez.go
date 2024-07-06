@@ -3,13 +3,14 @@ package domain
 type Velez struct {
 	Name               string
 	Addr               string
+	Port               int
 	CustomVelezKeyPath string
 	IsInsecure         bool
 }
 
 type Ssh struct {
 	Key      []byte
-	Addr     string
+	Port     uint64
 	Username string
 }
 

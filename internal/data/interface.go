@@ -27,6 +27,7 @@ type Resources interface {
 	Create(ctx context.Context, resource domain.Resource) error
 
 	UpdateState(ctx context.Context, changeState domain.UpdateState) error
+	Update(ctx context.Context, resource domain.Resource) error
 }
 
 type ConnectionCache interface {

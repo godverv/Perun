@@ -14,23 +14,28 @@ func (p *Provider) GetConnection(ctx context.Context, nodeName string) (*domain.
 	err := p.db.QueryRowContext(ctx, `
 		SELECT
 		   	node_name,
-			ssh_key,
-			ssh_addr,
-			ssh_user_name,
-			velez_addr,
+			addr,
+			velez_port,
 			custom_velez_key_path,
-			insecure
+			is_insecure,
+			
+			ssh_key,
+			ssh_port,
+			ssh_user_name
+			
 		FROM nodes
 		WHERE node_name = $1
     `, nodeName).
 		Scan(
 			&v.Node.Name,
-			&v.Ssh.Key,
-			&v.Ssh.Addr,
-			&v.Ssh.Username,
 			&v.Node.Addr,
+			&v.Node.Port,
 			&v.Node.CustomVelezKeyPath,
 			&v.Node.IsInsecure,
+
+			&v.Ssh.Key,
+			&v.Ssh.Port,
+			&v.Ssh.Username,
 		)
 	if err != nil {
 		return nil, errors.Wrap(err, "error getting velez node info")

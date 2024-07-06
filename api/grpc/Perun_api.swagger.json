@@ -229,8 +229,9 @@
           "type": "string",
           "format": "byte"
         },
-        "addr": {
-          "type": "string"
+        "port": {
+          "type": "string",
+          "format": "uint64"
         },
         "username": {
           "type": "string"

@@ -4,7 +4,7 @@ app_info:
     startup_duration: 10s
 data_sources:
     - resource_name: grpc_matreshka_be
-      connection_string: 0.0.0.0:50050
+      connection_string: 0.0.0.0:53891
       module: github.com/godverv/matreshka-be
     - resource_name: sqlite
       path: ./data/sqlite/Perun.db

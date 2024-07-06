@@ -28,14 +28,6 @@ func Postgres(resources matreshka.DataSources, resourceName, serviceName string)
 		Name:      name,
 		ImageName: "postgres:13.6",
 		Hardware:  &velez_api.Container_Hardware{},
-		Settings: &velez_api.Container_Settings{
-			Networks: []*velez_api.NetworkBind{
-				{
-					NetworkName: serviceName,
-					Aliases:     []string{name},
-				},
-			},
-		},
 		Env: map[string]string{
 			"POSTGRES_USER":     pg.User,
 			"POSTGRES_PASSWORD": pg.Pwd,
