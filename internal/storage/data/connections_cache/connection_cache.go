@@ -33,8 +33,10 @@ func (c *ConnectionCache) Get(names ...string) ([]domain.Node, error) {
 
 	for _, name := range names {
 		cl, ok := c.clients[name]
-		_ = ok // todo
-		out = append(out, cl)
+		if ok {
+			// TODO if client doesn't exists
+			out = append(out, cl)
+		}
 	}
 
 	return out, nil

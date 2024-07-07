@@ -39,7 +39,7 @@ func (m *ResourceManager) GetDependencies(ctx context.Context, serviceName strin
 			return deps, errors.Wrap(err, "error getting resource-smerd config ")
 		}
 
-		deps.Dependencies = append(deps.Dependencies, resourceDeps.Dependencies...)
+		deps.Resources = append(deps.Resources, resourceDeps.Resources...)
 	}
 
 	return deps, nil

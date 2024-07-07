@@ -8,10 +8,10 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (p *Storage) Get(ctx context.Context, name string) ([]domain.Resource, error) {
+func (s *Storage) Get(ctx context.Context, name string) ([]domain.Resource, error) {
 	var out []domain.Resource
 
-	rows, err := p.db.QueryContext(ctx,
+	rows, err := s.db.QueryContext(ctx,
 		`
 			SELECT
 			    node_name, 

@@ -43,17 +43,15 @@ func (r *RunServiceStep) Do(ctx context.Context, req *RunServiceReq) error {
 		createSmerd := &velez_api.CreateSmerd_Request{
 			Name:      req.ServiceName,
 			ImageName: req.ImageName,
-			Env:       make(map[string]string), // TODO: pass credentials for resources
 		}
 
-		// TODO: need service mesh
 		resourceInstance, err := node.Conn.CreateSmerd(ctx, createSmerd)
 		if err != nil {
 			return errors.Wrap(err, "error creating smerd on node")
 		}
 
 		updateStateReq := domain.Resource{
-			ResourceName: req.ServiceName, // TODO handle multiple instances on different nodes
+			ResourceName: req.ServiceName,
 			NodeName:     node.Name,
 			State:        domain.ResourceStateCreated,
 		}

@@ -4,11 +4,11 @@ import (
 	"context"
 
 	errors "github.com/Red-Sock/trace-errors"
+	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 
 	"github.com/Red-Sock/Perun/internal/domain"
 	"github.com/Red-Sock/Perun/internal/service"
 	"github.com/Red-Sock/Perun/internal/storage"
-	"github.com/Red-Sock/Perun/internal/utils/loop_over"
 )
 
 var ErrCreatedResourceHasNoPortsToAccess = errors.New("created resource has no ports to access")
@@ -16,15 +16,19 @@ var ErrCreatedResourceHasNoPortsToAccess = errors.New("created resource has no p
 type SyncDependenciesStep struct {
 	resourceService service.ResourceService
 	resourceData    storage.Resources
+
+	configService matreshka_api.MatreshkaBeAPIClient
 }
 
 func NewSyncDependenciesStep(
 	resourceService service.ResourceService,
 	resourceData storage.Resources,
+	configService matreshka_api.MatreshkaBeAPIClient,
 ) *SyncDependenciesStep {
 	return &SyncDependenciesStep{
 		resourceService: resourceService,
 		resourceData:    resourceData,
+		configService:   configService,
 	}
 }
 
@@ -38,9 +42,7 @@ func (s *SyncDependenciesStep) Do(ctx context.Context, r *RunServiceReq) error {
 		return errors.Wrap(err, "error getting dependencies")
 	}
 
-	nextNode := loop_over.LoopOver(r.Nodes)
-
-	for _, dep := range dependencies.Dependencies {
+	for _, dep := range dependencies.Resources {
 		var res []domain.Resource
 		res, err = s.resourceData.Get(ctx, dep.Name)
 		if err != nil {
@@ -48,47 +50,8 @@ func (s *SyncDependenciesStep) Do(ctx context.Context, r *RunServiceReq) error {
 		}
 
 		if len(res) == 0 {
-			// todo: when creating resource 100% there is gonna be change in config
-			err = s.createResource(ctx, nextNode(), dep)
-			if err != nil {
-				return errors.Wrap(err, "error creating resource")
-			}
+			r.Dependencies.Resources = append(r.Dependencies.Resources, dep)
 		}
-
-		// todo: handle current resource state
-	}
-
-	return nil
-}
-
-func (s *SyncDependenciesStep) createResource(ctx context.Context, node domain.Node, req domain.Dependency) error {
-	var createResReq domain.Resource
-	createResReq.ResourceName = req.Name
-	createResReq.NodeName = node.Name
-
-	err := s.resourceData.Create(ctx, createResReq)
-	if err != nil {
-		return errors.Wrap(err, "error creating resource")
-	}
-
-	resourceInstance, err := node.Conn.CreateSmerd(ctx, req.SmerdReq)
-	if err != nil {
-		return errors.Wrap(err, "error creating smerd on node")
-	}
-
-	if len(resourceInstance.Ports) == 0 {
-		return errors.Wrap(ErrCreatedResourceHasNoPortsToAccess, "no ports returned")
-	}
-	updateStateReq := domain.Resource{
-		ResourceName: req.Name,
-		NodeName:     node.Name,
-		State:        domain.ResourceStateCreated,
-		Port:         resourceInstance.Ports[0].Host,
-	}
-
-	err = s.resourceData.Update(ctx, updateStateReq)
-	if err != nil {
-		return errors.Wrap(err, "error changing state of resource")
 	}
 
 	return nil

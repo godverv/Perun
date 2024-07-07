@@ -1,16 +1,22 @@
 package domain
 
 import (
+	"github.com/Red-Sock/evon"
 	"github.com/godverv/Velez/pkg/velez_api"
 )
 
 type Dependencies struct {
-	Dependencies []Dependency
+	Volumes   []Volume
+	Resources []DataSource
 }
 
-type Dependency struct {
-	Name     string
-	SmerdReq *velez_api.CreateSmerd_Request
+type DataSource struct {
+	Name          string
+	SmerdReq      *velez_api.CreateSmerd_Request
+	ConfigChanges []evon.Node
+}
+type Volume struct {
+	Binding *velez_api.VolumeBindings
 }
 
 type resourceState int
@@ -29,4 +35,8 @@ type Resource struct {
 	NodeName     string
 	State        resourceState
 	Port         uint32
+}
+
+type ListResources struct {
+	Name string
 }

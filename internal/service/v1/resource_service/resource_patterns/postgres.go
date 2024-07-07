@@ -21,7 +21,7 @@ func Postgres(resources matreshka.DataSources, resourceName, serviceName string)
 	if pg.Host == "" {
 		pg.Host = pg.GetName()
 	}
-	var dependency domain.Dependency
+	var dependency domain.DataSource
 	dependency.Name = serviceName + "_pg"
 
 	dependency.SmerdReq = &velez_api.CreateSmerd_Request{
@@ -41,6 +41,6 @@ func Postgres(resources matreshka.DataSources, resourceName, serviceName string)
 		},
 	}
 
-	deps.Dependencies = append(deps.Dependencies, dependency)
+	deps.Resources = append(deps.Resources, dependency)
 	return deps, nil
 }

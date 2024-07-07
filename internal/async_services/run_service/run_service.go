@@ -6,6 +6,7 @@ import (
 
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/matreshka"
+	"github.com/godverv/matreshka-be/pkg/matreshka_api"
 	"github.com/sirupsen/logrus"
 
 	"github.com/Red-Sock/Perun/internal/domain"
@@ -22,6 +23,8 @@ type RunServiceReq struct {
 	Nodes []domain.Node
 
 	Config matreshka.AppConfig
+
+	Dependencies domain.Dependencies
 }
 
 type Step interface {
@@ -39,14 +42,21 @@ type ServiceRunner struct {
 func New(
 	services service.Services,
 	data storage.Data,
+	matreshkaClient matreshka_api.MatreshkaBeAPIClient,
 ) *ServiceRunner {
 	return &ServiceRunner{
 		steps: []Step{
+
 			NewInitStep(data.Resources()),
 			NewGetNodesStep(services.Nodes()),
 			NewPreSyncConfigStep(),
-			NewSyncDependenciesStep(services.Resources(), data.Resources()),
+			NewSyncDependenciesStep(services.Resources(), data.Resources(), matreshkaClient),
+
+			NewCreateResourcesStep(data.Resources()),
+			NewSyncConfigStep(matreshkaClient),
 			NewRunServiceStep(data.Resources()),
+
+			NewPostRunStep(data.Resources()),
 		},
 
 		maxParallel: 2,

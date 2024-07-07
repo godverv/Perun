@@ -8,13 +8,13 @@ import (
 	"github.com/godverv/matreshka"
 )
 
-type SyncConfigStep struct{}
+type PreSyncConfigStep struct{}
 
-func NewPreSyncConfigStep() *SyncConfigStep {
-	return &SyncConfigStep{}
+func NewPreSyncConfigStep() *PreSyncConfigStep {
+	return &PreSyncConfigStep{}
 }
 
-func (s *SyncConfigStep) Do(ctx context.Context, r *RunServiceReq) error {
+func (s *PreSyncConfigStep) Do(ctx context.Context, r *RunServiceReq) error {
 	fetchReq := &velez_api.FetchConfig_Request{
 		ServiceName: r.ServiceName,
 		ImageName:   r.ImageName,

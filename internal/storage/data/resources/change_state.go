@@ -8,8 +8,8 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (p *Storage) Update(ctx context.Context, req domain.Resource) error {
-	_, err := p.db.ExecContext(ctx, `
+func (s *Storage) Update(ctx context.Context, req domain.Resource) error {
+	_, err := s.db.ExecContext(ctx, `
 		UPDATE resources 
 		SET 
 			node_name = $1,

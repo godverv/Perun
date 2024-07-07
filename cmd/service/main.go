@@ -61,7 +61,7 @@ func start() error {
 
 	cronWarmCache(store)
 
-	runServiceQ := run_service.New(srv, store).Run(ctx)
+	runServiceQ := run_service.New(srv, store, matreshkaBeClient).Run(ctx)
 
 	err = runGrpcServer(ctx, cfg, srv, runServiceQ)
 	if err != nil {
