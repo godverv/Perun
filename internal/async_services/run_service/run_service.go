@@ -42,6 +42,7 @@ func New(
 ) *ServiceRunner {
 	return &ServiceRunner{
 		steps: []Step{
+			NewInitStep(data.Resources()),
 			NewGetNodesStep(services.Nodes()),
 			NewPreSyncConfigStep(),
 			NewSyncDependenciesStep(services.Resources(), data.Resources()),

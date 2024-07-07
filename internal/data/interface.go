@@ -23,7 +23,7 @@ type Nodes interface {
 }
 
 type Resources interface {
-	Get(ctx context.Context, name string) (*domain.Resource, error)
+	Get(ctx context.Context, name string) ([]domain.Resource, error)
 	Create(ctx context.Context, resource domain.Resource) error
 
 	Update(ctx context.Context, resource domain.Resource) error

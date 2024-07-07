@@ -18,7 +18,9 @@ type resourceState int
 const (
 	ResourceStateInvalid resourceState = iota
 	ResourceStateCreated
+	ResourceStateWaitingForResources
 	ResourceStateRunning
+	ResourceStateStopped
 	ResourceStateError
 )
 

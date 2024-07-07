@@ -41,13 +41,13 @@ func (s *SyncDependenciesStep) Do(ctx context.Context, r *RunServiceReq) error {
 	nextNode := loop_over.LoopOver(r.Nodes)
 
 	for _, dep := range dependencies.Dependencies {
-		var res *domain.Resource
+		var res []domain.Resource
 		res, err = s.resourceData.Get(ctx, dep.Name)
 		if err != nil {
 			return errors.Wrap(err, "error getting dependency from db")
 		}
 
-		if res == nil {
+		if len(res) == 0 {
 			// todo: when creating resource 100% there is gonna be change in config
 			err = s.createResource(ctx, nextNode(), dep)
 			if err != nil {

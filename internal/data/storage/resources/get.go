@@ -2,32 +2,49 @@ package resources
 
 import (
 	"context"
-	"database/sql"
 
 	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (p *Storage) Get(ctx context.Context, name string) (res *domain.Resource, err error) {
-	res = &domain.Resource{}
+func (p *Storage) Get(ctx context.Context, name string) ([]domain.Resource, error) {
+	var out []domain.Resource
 
-	res.ResourceName = name
-
-	err = p.db.QueryRowContext(ctx,
+	rows, err := p.db.QueryContext(ctx,
 		`
 			SELECT
-			    node_name
+			    node_name, 
+			    state,
+			    port
 			FROM resources
 			WHERE resource_full_name = $1
-`, name).
-		Scan(&res.NodeName)
+`, name)
 	if err != nil {
-		if errors.Is(err, sql.ErrNoRows) {
-			return nil, nil
+		return nil, errors.Wrap(err, "error reading resource from db")
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var res domain.Resource
+		res.ResourceName = name
+
+		err = rows.Scan(
+			&res.NodeName,
+			&res.State,
+			&res.Port,
+		)
+		if err != nil {
+			return nil, errors.Wrap(err, "error reading resource from rows")
 		}
-		return res, errors.Wrap(err, "error reading resource from db")
+
+		out = append(out, res)
 	}
 
-	return res, nil
+	err = rows.Err()
+	if err != nil {
+		return nil, errors.Wrap(err, "error reading rows from db")
+	}
+
+	return out, nil
 }
