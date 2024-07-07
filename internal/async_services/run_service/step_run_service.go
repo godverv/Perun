@@ -6,16 +6,16 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/Velez/pkg/velez_api"
 
-	"github.com/Red-Sock/Perun/internal/data"
 	"github.com/Red-Sock/Perun/internal/domain"
+	"github.com/Red-Sock/Perun/internal/storage"
 	"github.com/Red-Sock/Perun/internal/utils/loop_over"
 )
 
 type RunServiceStep struct {
-	resourceData data.Resources
+	resourceData storage.Resources
 }
 
-func NewRunServiceStep(resourceData data.Resources) *RunServiceStep {
+func NewRunServiceStep(resourceData storage.Resources) *RunServiceStep {
 	return &RunServiceStep{
 		resourceData: resourceData,
 	}

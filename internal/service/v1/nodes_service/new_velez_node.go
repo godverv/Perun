@@ -6,8 +6,8 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/Velez/pkg/velez_api"
 
-	"github.com/Red-Sock/Perun/internal/data/velez"
 	"github.com/Red-Sock/Perun/internal/domain"
+	"github.com/Red-Sock/Perun/internal/storage/connections_cache"
 )
 
 const defaultVelezKeyPath = "/tmp/velez/private.key"
@@ -17,7 +17,7 @@ func (n *NodesService) NewVelezConnection(ctx context.Context, in domain.VelezCo
 		in.Node.CustomVelezKeyPath = defaultVelezKeyPath
 	}
 
-	vs, err := velez.NewVelezService(in)
+	vs, err := connections_cache.NewVelezService(in)
 	if err != nil {
 		return errors.Wrap(err, "error connecting to velez node")
 	}

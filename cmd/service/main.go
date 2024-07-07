@@ -15,10 +15,10 @@ import (
 	grpcResource "github.com/Red-Sock/Perun/internal/clients/grpc"
 	"github.com/Red-Sock/Perun/internal/clients/sqlite"
 	"github.com/Red-Sock/Perun/internal/config"
-	"github.com/Red-Sock/Perun/internal/data"
-	"github.com/Red-Sock/Perun/internal/data/storage"
 	"github.com/Red-Sock/Perun/internal/service"
 	"github.com/Red-Sock/Perun/internal/service/v1"
+	"github.com/Red-Sock/Perun/internal/storage"
+	"github.com/Red-Sock/Perun/internal/storage/data"
 	"github.com/Red-Sock/Perun/internal/tasks/warm_up_cache"
 	"github.com/Red-Sock/Perun/internal/transport/grpc"
 	"github.com/Red-Sock/Perun/internal/transport/grpc/perun"
@@ -84,7 +84,7 @@ func waitingForTheEnd() {
 	<-done
 }
 
-func initStorage(cfg config.Config) (data.Data, error) {
+func initStorage(cfg config.Config) (storage.Data, error) {
 	var provider *sql.DB
 	{
 		sqliteConn, err := cfg.GetDataSources().Sqlite(config.ResourceSqlite)
@@ -98,7 +98,7 @@ func initStorage(cfg config.Config) (data.Data, error) {
 		}
 	}
 
-	s, err := storage.NewStorage(provider)
+	s, err := data.NewStorage(provider)
 	if err != nil {
 		return nil, errors.Wrap(err, "error creating storage")
 	}
@@ -129,6 +129,6 @@ func runGrpcServer(ctx context.Context, cfg config.Config, srv service.Services,
 	return nil
 }
 
-func cronWarmCache(d data.Data) {
+func cronWarmCache(d storage.Data) {
 	cron.New(time.Minute, warm_up_cache.New(d).Do)
 }

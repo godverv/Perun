@@ -8,9 +8,9 @@ import (
 	"github.com/godverv/matreshka"
 	"github.com/sirupsen/logrus"
 
-	"github.com/Red-Sock/Perun/internal/data"
 	"github.com/Red-Sock/Perun/internal/domain"
 	"github.com/Red-Sock/Perun/internal/service"
+	"github.com/Red-Sock/Perun/internal/storage"
 )
 
 type RunServiceReq struct {
@@ -38,7 +38,7 @@ type ServiceRunner struct {
 
 func New(
 	services service.Services,
-	data data.Data,
+	data storage.Data,
 ) *ServiceRunner {
 	return &ServiceRunner{
 		steps: []Step{

@@ -5,9 +5,9 @@ import (
 
 	errors "github.com/Red-Sock/trace-errors"
 
-	"github.com/Red-Sock/Perun/internal/data"
 	"github.com/Red-Sock/Perun/internal/domain"
 	"github.com/Red-Sock/Perun/internal/service"
+	"github.com/Red-Sock/Perun/internal/storage"
 	"github.com/Red-Sock/Perun/internal/utils/loop_over"
 )
 
@@ -15,12 +15,12 @@ var ErrCreatedResourceHasNoPortsToAccess = errors.New("created resource has no p
 
 type SyncDependenciesStep struct {
 	resourceService service.ResourceService
-	resourceData    data.Resources
+	resourceData    storage.Resources
 }
 
 func NewSyncDependenciesStep(
 	resourceService service.ResourceService,
-	resourceData data.Resources,
+	resourceData storage.Resources,
 ) *SyncDependenciesStep {
 	return &SyncDependenciesStep{
 		resourceService: resourceService,

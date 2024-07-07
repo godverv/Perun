@@ -6,18 +6,18 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/Red-Sock/Perun/internal/data"
-	"github.com/Red-Sock/Perun/internal/data/velez"
 	"github.com/Red-Sock/Perun/internal/domain"
+	"github.com/Red-Sock/Perun/internal/storage"
+	"github.com/Red-Sock/Perun/internal/storage/connections_cache"
 )
 
 type WarmUpCacheTask struct {
-	nodes data.Nodes
+	nodes storage.Nodes
 
-	cache data.ConnectionCache
+	cache storage.ConnectionCache
 }
 
-func New(d data.Data) WarmUpCacheTask {
+func New(d storage.Data) WarmUpCacheTask {
 	return WarmUpCacheTask{
 		nodes: d.Nodes(),
 		cache: d.Connections(),
@@ -39,7 +39,7 @@ func (t WarmUpCacheTask) do() error {
 	}
 
 	for _, n := range node {
-		conn, err := velez.NewVelezService(n)
+		conn, err := connections_cache.NewVelezService(n)
 		if err != nil {
 			return errors.Wrap(err, "error creating velez service")
 		}

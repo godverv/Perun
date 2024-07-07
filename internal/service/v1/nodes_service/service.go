@@ -1,16 +1,16 @@
 package nodes_service
 
 import (
-	"github.com/Red-Sock/Perun/internal/data"
+	"github.com/Red-Sock/Perun/internal/storage"
 )
 
 type NodesService struct {
-	nodesStore data.Nodes
+	nodesStore storage.Nodes
 
-	connectionsCache data.ConnectionCache
+	connectionsCache storage.ConnectionCache
 }
 
-func New(store data.Data) *NodesService {
+func New(store storage.Data) *NodesService {
 	return &NodesService{
 		nodesStore:       store.Nodes(),
 		connectionsCache: store.Connections(),

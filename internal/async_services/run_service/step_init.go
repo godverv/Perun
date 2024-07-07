@@ -5,16 +5,16 @@ import (
 
 	errors "github.com/Red-Sock/trace-errors"
 
-	"github.com/Red-Sock/Perun/internal/data"
+	"github.com/Red-Sock/Perun/internal/storage"
 )
 
 var ErrServiceAlreadyExists = errors.New("service already exists")
 
 type Init struct {
-	resourcesData data.Resources
+	resourcesData storage.Resources
 }
 
-func NewInitStep(resources data.Resources) *Init {
+func NewInitStep(resources storage.Resources) *Init {
 	return &Init{
 		resourcesData: resources,
 	}

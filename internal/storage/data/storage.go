@@ -1,14 +1,14 @@
-package storage
+package data
 
 import (
 	"database/sql"
 
 	_ "modernc.org/sqlite"
 
-	"github.com/Red-Sock/Perun/internal/data"
-	"github.com/Red-Sock/Perun/internal/data/storage/connections_cache"
-	"github.com/Red-Sock/Perun/internal/data/storage/nodes"
-	"github.com/Red-Sock/Perun/internal/data/storage/resources"
+	"github.com/Red-Sock/Perun/internal/storage"
+	"github.com/Red-Sock/Perun/internal/storage/data/connections_cache"
+	"github.com/Red-Sock/Perun/internal/storage/data/nodes"
+	"github.com/Red-Sock/Perun/internal/storage/data/resources"
 )
 
 const (
@@ -22,7 +22,7 @@ type Store struct {
 	connectionsCache *connections_cache.ConnectionCache
 }
 
-func NewStorage(conn *sql.DB) (data.Data, error) {
+func NewStorage(conn *sql.DB) (storage.Data, error) {
 	return &Store{
 		nodes:     nodes.NewStorage(conn),
 		resources: resources.NewProvider(conn),
@@ -31,13 +31,13 @@ func NewStorage(conn *sql.DB) (data.Data, error) {
 	}, nil
 }
 
-func (s *Store) Nodes() data.Nodes {
+func (s *Store) Nodes() storage.Nodes {
 	return s.nodes
 }
 
-func (s *Store) Resources() data.Resources {
+func (s *Store) Resources() storage.Resources {
 	return s.resources
 }
-func (s *Store) Connections() data.ConnectionCache {
+func (s *Store) Connections() storage.ConnectionCache {
 	return s.connectionsCache
 }
