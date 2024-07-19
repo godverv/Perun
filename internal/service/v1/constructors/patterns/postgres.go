@@ -1,4 +1,4 @@
-package resource_patterns
+package patterns
 
 import (
 	"github.com/godverv/Velez/pkg/velez_api"
@@ -22,12 +22,20 @@ func Postgres(resources matreshka.DataSources, resourceName, serviceName string)
 		pg.Host = pg.GetName()
 	}
 	var dependency domain.DataSource
-	dependency.Name = serviceName + "_pg"
+	dependency.Name = serviceName + "_" + resourceName
 
-	dependency.SmerdReq = &velez_api.CreateSmerd_Request{
+	dependency.Constructor = &velez_api.CreateSmerd_Request{
 		Name:      dependency.Name,
-		ImageName: "postgres:13.6",
+		ImageName: PostgresImage,
 		Hardware:  &velez_api.Container_Hardware{},
+		Settings: &velez_api.Container_Settings{
+			Ports: []*velez_api.PortBindings{
+				{
+					Container: 5432,
+					Protoc:    velez_api.PortBindings_tcp,
+				},
+			},
+		},
 		Env: map[string]string{
 			"POSTGRES_USER":     pg.User,
 			"POSTGRES_PASSWORD": pg.Pwd,

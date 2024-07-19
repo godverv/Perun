@@ -7,36 +7,36 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"github.com/Red-Sock/Perun/internal/async_services/run_service"
+	"github.com/Red-Sock/Perun/internal/async_services"
 	"github.com/Red-Sock/Perun/internal/config"
+	"github.com/Red-Sock/Perun/internal/domain"
 	"github.com/Red-Sock/Perun/internal/service"
 	"github.com/Red-Sock/Perun/pkg/perun_api"
 )
 
-type Implementation struct {
+type Impl struct {
 	perun_api.UnimplementedPerunAPIServer
 
-	nodeService     service.NodesService
-	resourceService service.ResourceService
+	nodeService service.NodesService
 
-	createServiceQ chan<- run_service.RunServiceReq
+	initServiceQueue async_services.ConsumerQueue[domain.InitServiceReq]
 
 	version string
 }
 
-func New(cfg config.Config, nodeService service.NodesService, createServiceQ chan<- run_service.RunServiceReq) *Implementation {
-	return &Implementation{
-		version:        cfg.GetAppInfo().Version,
-		nodeService:    nodeService,
-		createServiceQ: createServiceQ,
+func New(cfg config.Config, nodeService service.NodesService, queue async_services.AsyncService) *Impl {
+	return &Impl{
+		version:          cfg.GetAppInfo().Version,
+		nodeService:      nodeService,
+		initServiceQueue: queue.InitServiceQueue(),
 	}
 }
 
-func (impl *Implementation) Register(server grpc.ServiceRegistrar) {
-	perun_api.RegisterPerunAPIServer(server, impl)
+func (s *Impl) Register(server grpc.ServiceRegistrar) {
+	perun_api.RegisterPerunAPIServer(server, s)
 }
 
-func (impl *Implementation) RegisterGw(ctx context.Context, mux *runtime.ServeMux, addr string) error {
+func (s *Impl) RegisterGw(ctx context.Context, mux *runtime.ServeMux, addr string) error {
 	return perun_api.RegisterPerunAPIHandlerFromEndpoint(
 		ctx,
 		mux,

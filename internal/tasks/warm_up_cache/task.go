@@ -33,7 +33,7 @@ func (t WarmUpCacheTask) Do() {
 
 func (t WarmUpCacheTask) do() error {
 	ctx := context.Background()
-	node, err := t.nodes.ListLeastUsedNodes(ctx, domain.PickNodeReq{ReplicationFactor: 10})
+	node, err := t.nodes.ListLeastUsedNodes(ctx, domain.PickNodesReq{NodesCount: 10})
 	if err != nil {
 		return errors.Wrap(err, "error getting least used nodes")
 	}

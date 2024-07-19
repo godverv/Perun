@@ -324,14 +324,14 @@ func (*ListNodes) Descriptor() ([]byte, []int) {
 	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{5}
 }
 
-type RunService struct {
+type CreateService struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *RunService) Reset() {
-	*x = RunService{}
+func (x *CreateService) Reset() {
+	*x = CreateService{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_grpc_Perun_api_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -339,13 +339,13 @@ func (x *RunService) Reset() {
 	}
 }
 
-func (x *RunService) String() string {
+func (x *CreateService) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RunService) ProtoMessage() {}
+func (*CreateService) ProtoMessage() {}
 
-func (x *RunService) ProtoReflect() protoreflect.Message {
+func (x *CreateService) ProtoReflect() protoreflect.Message {
 	mi := &file_grpc_Perun_api_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -357,8 +357,8 @@ func (x *RunService) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RunService.ProtoReflect.Descriptor instead.
-func (*RunService) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateService.ProtoReflect.Descriptor instead.
+func (*CreateService) Descriptor() ([]byte, []int) {
 	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{6}
 }
 
@@ -642,7 +642,7 @@ func (x *ListNodes_Response) GetNodes() []*Node {
 	return nil
 }
 
-type RunService_Request struct {
+type CreateService_Request struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -650,11 +650,11 @@ type RunService_Request struct {
 	ImageName   string `protobuf:"bytes,1,opt,name=image_name,json=imageName,proto3" json:"image_name,omitempty"`
 	ServiceName string `protobuf:"bytes,2,opt,name=service_name,json=serviceName,proto3" json:"service_name,omitempty"`
 	// the amount of replicas needed to start and support running
-	ReplicationFactor uint32 `protobuf:"varint,3,opt,name=replication_factor,json=replicationFactor,proto3" json:"replication_factor,omitempty"`
+	Replicas uint32 `protobuf:"varint,3,opt,name=replicas,proto3" json:"replicas,omitempty"`
 }
 
-func (x *RunService_Request) Reset() {
-	*x = RunService_Request{}
+func (x *CreateService_Request) Reset() {
+	*x = CreateService_Request{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_grpc_Perun_api_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -662,13 +662,13 @@ func (x *RunService_Request) Reset() {
 	}
 }
 
-func (x *RunService_Request) String() string {
+func (x *CreateService_Request) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RunService_Request) ProtoMessage() {}
+func (*CreateService_Request) ProtoMessage() {}
 
-func (x *RunService_Request) ProtoReflect() protoreflect.Message {
+func (x *CreateService_Request) ProtoReflect() protoreflect.Message {
 	mi := &file_grpc_Perun_api_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -680,40 +680,40 @@ func (x *RunService_Request) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RunService_Request.ProtoReflect.Descriptor instead.
-func (*RunService_Request) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateService_Request.ProtoReflect.Descriptor instead.
+func (*CreateService_Request) Descriptor() ([]byte, []int) {
 	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{6, 0}
 }
 
-func (x *RunService_Request) GetImageName() string {
+func (x *CreateService_Request) GetImageName() string {
 	if x != nil {
 		return x.ImageName
 	}
 	return ""
 }
 
-func (x *RunService_Request) GetServiceName() string {
+func (x *CreateService_Request) GetServiceName() string {
 	if x != nil {
 		return x.ServiceName
 	}
 	return ""
 }
 
-func (x *RunService_Request) GetReplicationFactor() uint32 {
+func (x *CreateService_Request) GetReplicas() uint32 {
 	if x != nil {
-		return x.ReplicationFactor
+		return x.Replicas
 	}
 	return 0
 }
 
-type RunService_Response struct {
+type CreateService_Response struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *RunService_Response) Reset() {
-	*x = RunService_Response{}
+func (x *CreateService_Response) Reset() {
+	*x = CreateService_Response{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_grpc_Perun_api_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -721,13 +721,13 @@ func (x *RunService_Response) Reset() {
 	}
 }
 
-func (x *RunService_Response) String() string {
+func (x *CreateService_Response) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RunService_Response) ProtoMessage() {}
+func (*CreateService_Response) ProtoMessage() {}
 
-func (x *RunService_Response) ProtoReflect() protoreflect.Message {
+func (x *CreateService_Response) ProtoReflect() protoreflect.Message {
 	mi := &file_grpc_Perun_api_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -739,8 +739,8 @@ func (x *RunService_Response) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RunService_Response.ProtoReflect.Descriptor instead.
-func (*RunService_Response) Descriptor() ([]byte, []int) {
+// Deprecated: Use CreateService_Response.ProtoReflect.Descriptor instead.
+func (*CreateService_Response) Descriptor() ([]byte, []int) {
 	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{6, 1}
 }
 
@@ -795,16 +795,15 @@ var file_grpc_Perun_api_proto_rawDesc = []byte{
 	0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x25, 0x0a, 0x05, 0x6e, 0x6f, 0x64,
 	0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x0f, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e,
 	0x5f, 0x61, 0x70, 0x69, 0x2e, 0x4e, 0x6f, 0x64, 0x65, 0x52, 0x05, 0x6e, 0x6f, 0x64, 0x65, 0x73,
-	0x22, 0x94, 0x01, 0x0a, 0x0a, 0x52, 0x75, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x1a,
-	0x7a, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a, 0x0a, 0x69, 0x6d,
-	0x61, 0x67, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
-	0x69, 0x6d, 0x61, 0x67, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x21, 0x0a, 0x0c, 0x73, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x2d, 0x0a, 0x12,
-	0x72, 0x65, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x5f, 0x66, 0x61, 0x63, 0x74,
-	0x6f, 0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0d, 0x52, 0x11, 0x72, 0x65, 0x70, 0x6c, 0x69, 0x63,
-	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x46, 0x61, 0x63, 0x74, 0x6f, 0x72, 0x1a, 0x0a, 0x0a, 0x08, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x8e, 0x03, 0x0a, 0x08, 0x50, 0x65, 0x72, 0x75,
+	0x22, 0x84, 0x01, 0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69,
+	0x63, 0x65, 0x1a, 0x67, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1d, 0x0a,
+	0x0a, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x09, 0x69, 0x6d, 0x61, 0x67, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x12, 0x21, 0x0a, 0x0c,
+	0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x4e, 0x61, 0x6d, 0x65, 0x12,
+	0x1a, 0x0a, 0x08, 0x72, 0x65, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28,
+	0x0d, 0x52, 0x08, 0x72, 0x65, 0x70, 0x6c, 0x69, 0x63, 0x61, 0x73, 0x1a, 0x0a, 0x0a, 0x08, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x32, 0x97, 0x03, 0x0a, 0x08, 0x50, 0x65, 0x72, 0x75,
 	0x6e, 0x41, 0x50, 0x49, 0x12, 0x54, 0x0a, 0x07, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12,
 	0x1a, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x56, 0x65, 0x72, 0x73,
 	0x69, 0x6f, 0x6e, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x70, 0x65,
@@ -823,14 +822,15 @@ var file_grpc_Perun_api_proto_rawDesc = []byte{
 	0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x4c, 0x69, 0x73, 0x74, 0x4e, 0x6f, 0x64, 0x65,
 	0x73, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x16, 0x82, 0xd3, 0xe4, 0x93,
 	0x02, 0x10, 0x3a, 0x01, 0x2a, 0x22, 0x0b, 0x2f, 0x76, 0x65, 0x6c, 0x65, 0x7a, 0x2f, 0x6c, 0x69,
-	0x73, 0x74, 0x12, 0x64, 0x0a, 0x0a, 0x52, 0x75, 0x6e, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
-	0x12, 0x1d, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x75, 0x6e,
-	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x1e, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x2e, 0x52, 0x75, 0x6e, 0x53,
-	0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
-	0x17, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x11, 0x3a, 0x01, 0x2a, 0x22, 0x0c, 0x2f, 0x73, 0x65, 0x72,
-	0x76, 0x69, 0x63, 0x65, 0x2f, 0x72, 0x75, 0x6e, 0x42, 0x0c, 0x5a, 0x0a, 0x2f, 0x70, 0x65, 0x72,
-	0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x74, 0x12, 0x6d, 0x0a, 0x0d, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76,
+	0x69, 0x63, 0x65, 0x12, 0x20, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x2e,
+	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x21, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70,
+	0x69, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2e,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x17, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x11,
+	0x3a, 0x01, 0x2a, 0x22, 0x0c, 0x2f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x6e, 0x65,
+	0x77, 0x42, 0x0c, 0x5a, 0x0a, 0x2f, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -847,21 +847,21 @@ func file_grpc_Perun_api_proto_rawDescGZIP() []byte {
 
 var file_grpc_Perun_api_proto_msgTypes = make([]protoimpl.MessageInfo, 15)
 var file_grpc_Perun_api_proto_goTypes = []interface{}{
-	(*Version)(nil),               // 0: perun_api.Version
-	(*Node)(nil),                  // 1: perun_api.Node
-	(*Ssh)(nil),                   // 2: perun_api.Ssh
-	(*ConnectVelez)(nil),          // 3: perun_api.ConnectVelez
-	(*ListPaging)(nil),            // 4: perun_api.ListPaging
-	(*ListNodes)(nil),             // 5: perun_api.ListNodes
-	(*RunService)(nil),            // 6: perun_api.RunService
-	(*Version_Request)(nil),       // 7: perun_api.Version.Request
-	(*Version_Response)(nil),      // 8: perun_api.Version.Response
-	(*ConnectVelez_Request)(nil),  // 9: perun_api.ConnectVelez.Request
-	(*ConnectVelez_Response)(nil), // 10: perun_api.ConnectVelez.Response
-	(*ListNodes_Request)(nil),     // 11: perun_api.ListNodes.Request
-	(*ListNodes_Response)(nil),    // 12: perun_api.ListNodes.Response
-	(*RunService_Request)(nil),    // 13: perun_api.RunService.Request
-	(*RunService_Response)(nil),   // 14: perun_api.RunService.Response
+	(*Version)(nil),                // 0: perun_api.Version
+	(*Node)(nil),                   // 1: perun_api.Node
+	(*Ssh)(nil),                    // 2: perun_api.Ssh
+	(*ConnectVelez)(nil),           // 3: perun_api.ConnectVelez
+	(*ListPaging)(nil),             // 4: perun_api.ListPaging
+	(*ListNodes)(nil),              // 5: perun_api.ListNodes
+	(*CreateService)(nil),          // 6: perun_api.CreateService
+	(*Version_Request)(nil),        // 7: perun_api.Version.Request
+	(*Version_Response)(nil),       // 8: perun_api.Version.Response
+	(*ConnectVelez_Request)(nil),   // 9: perun_api.ConnectVelez.Request
+	(*ConnectVelez_Response)(nil),  // 10: perun_api.ConnectVelez.Response
+	(*ListNodes_Request)(nil),      // 11: perun_api.ListNodes.Request
+	(*ListNodes_Response)(nil),     // 12: perun_api.ListNodes.Response
+	(*CreateService_Request)(nil),  // 13: perun_api.CreateService.Request
+	(*CreateService_Response)(nil), // 14: perun_api.CreateService.Response
 }
 var file_grpc_Perun_api_proto_depIdxs = []int32{
 	1,  // 0: perun_api.ConnectVelez.Request.node:type_name -> perun_api.Node
@@ -871,11 +871,11 @@ var file_grpc_Perun_api_proto_depIdxs = []int32{
 	7,  // 4: perun_api.PerunAPI.Version:input_type -> perun_api.Version.Request
 	9,  // 5: perun_api.PerunAPI.ConnectVelez:input_type -> perun_api.ConnectVelez.Request
 	11, // 6: perun_api.PerunAPI.ListNodes:input_type -> perun_api.ListNodes.Request
-	13, // 7: perun_api.PerunAPI.RunService:input_type -> perun_api.RunService.Request
+	13, // 7: perun_api.PerunAPI.CreateService:input_type -> perun_api.CreateService.Request
 	8,  // 8: perun_api.PerunAPI.Version:output_type -> perun_api.Version.Response
 	10, // 9: perun_api.PerunAPI.ConnectVelez:output_type -> perun_api.ConnectVelez.Response
 	12, // 10: perun_api.PerunAPI.ListNodes:output_type -> perun_api.ListNodes.Response
-	14, // 11: perun_api.PerunAPI.RunService:output_type -> perun_api.RunService.Response
+	14, // 11: perun_api.PerunAPI.CreateService:output_type -> perun_api.CreateService.Response
 	8,  // [8:12] is the sub-list for method output_type
 	4,  // [4:8] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
@@ -962,7 +962,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RunService); i {
+			switch v := v.(*CreateService); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1046,7 +1046,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RunService_Request); i {
+			switch v := v.(*CreateService_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1058,7 +1058,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RunService_Response); i {
+			switch v := v.(*CreateService_Response); i {
 			case 0:
 				return &v.state
 			case 1:

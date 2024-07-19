@@ -9,31 +9,33 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (p *Provider) ListLeastUsedNodes(ctx context.Context, req domain.PickNodeReq) ([]domain.VelezConnection, error) {
+func (p *Provider) ListLeastUsedNodes(ctx context.Context, req domain.PickNodesReq) ([]domain.VelezConnection, error) {
 	r, err := p.db.QueryContext(ctx, `
 		SELECT 
-		    n.node_name,
-		    n.addr,
-		    n.velez_port,
-		    n.custom_velez_key_path,
-			n.is_insecure,
+		    node.name,
+		    node.addr,
+		    
+		    node.velez_port,
+		    node.custom_velez_key_path,
+			node.is_insecure,
 			
-			n.ssh_key,
-			n.ssh_port,
-			n.ssh_user_name
-		FROM nodes n
-		LEFT JOIN resources r ON r.node_name = n.node_name
-		GROUP BY n.node_name
-		ORDER BY count(r.resource_full_name)
+			node.ssh_key,
+			node.ssh_port,
+			node.ssh_user_name
+		FROM nodes node
+		LEFT JOIN instances inst ON inst.node_name = node.name
+		
+		GROUP BY node.name
+		ORDER BY count(inst.service_name)
 		LIMIT $1
-`, req.ReplicationFactor)
+`, req.NodesCount)
 	if err != nil {
 		return nil, errors.Wrap(err, "error getting nodes")
 	}
 
 	defer r.Close()
 
-	out := make([]domain.VelezConnection, 0, req.ReplicationFactor)
+	out := make([]domain.VelezConnection, 0, req.NodesCount)
 	for r.Next() {
 		out = append(out, scanVelezConnection(r))
 	}

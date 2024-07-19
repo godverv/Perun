@@ -1,4 +1,4 @@
-package resource_patterns
+package patterns
 
 import (
 	"path"

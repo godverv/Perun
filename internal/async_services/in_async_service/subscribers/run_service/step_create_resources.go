@@ -11,11 +11,13 @@ import (
 	"github.com/Red-Sock/Perun/internal/utils/loop_over"
 )
 
+var ErrCreatedResourceHasNoPortsToAccess = errors.New("created resource has no ports to access")
+
 type CreateResourcesStep struct {
-	resourceData storage.Resources
+	resourceData storage.Services
 }
 
-func NewCreateResourcesStep(resourceData storage.Resources) *CreateResourcesStep {
+func NewCreateResourcesStep(resourceData storage.Services) *CreateResourcesStep {
 	return &CreateResourcesStep{
 		resourceData: resourceData,
 	}
@@ -25,27 +27,28 @@ func (c *CreateResourcesStep) Do(ctx context.Context, r *RunServiceReq) error {
 	nextNode := loop_over.LoopOver(r.Nodes)
 
 	for _, dependency := range r.Dependencies.Resources {
-		resources, err := c.resourceData.Get(ctx, dependency.Name)
+		serviceDb, err := c.resourceData.Get(ctx, dependency.Name)
 		if err != nil {
 			return errors.Wrap(err, "error getting resource")
 		}
 
-		if len(resources) != 0 {
+		if serviceDb != nil {
 			continue
 		}
 
 		node := nextNode()
 
-		var resource domain.Resource
-		resource.ResourceName = dependency.Name
-		resource.NodeName = node.Name
+		var resource domain.Service
+		resource.Name = dependency.Name
+		// TODO
+		//resource.NodeName = node.Name
 
-		err = c.resourceData.Create(ctx, resource)
+		err = c.resourceData.Upsert(ctx, resource)
 		if err != nil {
 			return errors.Wrap(err, "error creating resource")
 		}
 
-		resourceInstance, err := node.Conn.CreateSmerd(ctx, dependency.SmerdReq)
+		resourceInstance, err := node.Conn.CreateSmerd(ctx, dependency.Constructor)
 		if err != nil {
 			return errors.Wrap(err, "error creating smerd on node")
 		}
@@ -54,15 +57,16 @@ func (c *CreateResourcesStep) Do(ctx context.Context, r *RunServiceReq) error {
 			return errors.Wrap(ErrCreatedResourceHasNoPortsToAccess, "no ports returned")
 		}
 
-		resource.State = domain.ResourceStateCreated
-		resource.Port = resourceInstance.Ports[0].Host
+		resource.State = domain.ServiceStateCreated
+		// TODO
+		//resource.Port = resourceInstance.Ports[0].Host
 
-		err = c.resourceData.Update(ctx, resource)
+		err = c.resourceData.UpdateState(ctx, resource)
 		if err != nil {
 			return errors.Wrap(err, "error changing state of resource")
 		}
 		listReq := &velez_api.ListSmerds_Request{
-			Name: &resource.ResourceName,
+			Name: &resource.Name,
 		}
 		resourcesList, err := node.Conn.ListSmerds(ctx, listReq)
 		if err != nil {
@@ -71,19 +75,19 @@ func (c *CreateResourcesStep) Do(ctx context.Context, r *RunServiceReq) error {
 
 		var startedResource *velez_api.Smerd
 		for _, runningResource := range resourcesList.Smerds {
-			if runningResource.Name == resource.ResourceName {
+			if runningResource.Name == resource.Name {
 				startedResource = runningResource
 				break
 			}
 		}
 
 		if startedResource == nil || startedResource.Status != velez_api.Smerd_running {
-			resource.State = domain.ResourceStateError
+			resource.State = domain.ServiceStateError
 		} else {
-			resource.State = domain.ResourceStateRunning
+			resource.State = domain.ServiceStateRunning
 		}
 
-		err = c.resourceData.Update(ctx, resource)
+		err = c.resourceData.UpdateState(ctx, resource)
 		if err != nil {
 			return errors.Wrap(err, "error updating resource state")
 		}

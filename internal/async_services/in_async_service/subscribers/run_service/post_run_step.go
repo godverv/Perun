@@ -14,10 +14,10 @@ import (
 var defaultServiceUpWaitTime = time.Second * 10
 
 type PostRunStep struct {
-	resourcesStorage storage.Resources
+	resourcesStorage storage.Services
 }
 
-func NewPostRunStep(resourcesStorage storage.Resources) *PostRunStep {
+func NewPostRunStep(resourcesStorage storage.Services) *PostRunStep {
 	return &PostRunStep{resourcesStorage: resourcesStorage}
 }
 
@@ -27,11 +27,11 @@ func (p *PostRunStep) Do(ctx context.Context, r *RunServiceReq) error {
 	listReq := &velez_api.ListSmerds_Request{}
 	listReq.Name = &r.ServiceName
 
-	services := make([]*domain.Resource, 0, len(r.Nodes))
+	services := make([]*domain.Service, 0, len(r.Nodes))
 	var err error
 	defer func() {
 		for _, service := range services {
-			err = p.resourcesStorage.Update(ctx, *service)
+			err = p.resourcesStorage.UpdateState(ctx, *service)
 			if err != nil {
 				err = errors.Wrap(err, "error updating resource state in storage")
 				return
@@ -40,9 +40,9 @@ func (p *PostRunStep) Do(ctx context.Context, r *RunServiceReq) error {
 	}()
 
 	for _, node := range r.Nodes {
-		service := &domain.Resource{
-			ResourceName: r.ServiceName,
-			NodeName:     node.Name,
+		service := &domain.Service{
+			Name: r.ServiceName,
+			//NodeName: node.Name, TODO
 		}
 
 		services = append(services, service)
@@ -60,20 +60,21 @@ func (p *PostRunStep) Do(ctx context.Context, r *RunServiceReq) error {
 			}
 		}
 		if serviceContainer == nil {
-			service.State = domain.ResourceStateError
+			service.State = domain.ServiceStateError
 			continue
 		}
 
 		if serviceContainer.Status != velez_api.Smerd_running {
-			service.State = domain.ResourceStateError
+			service.State = domain.ServiceStateError
 			continue
 		}
 
 		if len(serviceContainer.Ports) != 0 {
-			service.Port = serviceContainer.Ports[0].Host
+			// TODO
+			//service.Port = serviceContainer.Ports[0].Host
 		}
 
-		service.State = domain.ResourceStateRunning
+		service.State = domain.ServiceStateRunning
 	}
 
 	return nil

@@ -12,10 +12,10 @@ import (
 )
 
 type RunServiceStep struct {
-	resourceData storage.Resources
+	resourceData storage.Services
 }
 
-func NewRunServiceStep(resourceData storage.Resources) *RunServiceStep {
+func NewRunServiceStep(resourceData storage.Services) *RunServiceStep {
 	return &RunServiceStep{
 		resourceData: resourceData,
 	}
@@ -31,11 +31,12 @@ func (r *RunServiceStep) Do(ctx context.Context, req *RunServiceReq) error {
 	for i := uint32(0); i < req.ReplicationFactor; i++ {
 		node := nextNode()
 
-		createResource := domain.Resource{
-			ResourceName: req.ServiceName,
-			NodeName:     node.Name,
+		// TODO
+		createResource := domain.Service{
+			Name: req.ServiceName,
+			//NodeName: node.Name,
 		}
-		err := r.resourceData.Create(ctx, createResource)
+		err := r.resourceData.Upsert(ctx, createResource)
 		if err != nil {
 			return errors.Wrap(err, "error creating resource")
 		}
@@ -50,16 +51,17 @@ func (r *RunServiceStep) Do(ctx context.Context, req *RunServiceReq) error {
 			return errors.Wrap(err, "error creating smerd on node")
 		}
 
-		updateStateReq := domain.Resource{
-			ResourceName: req.ServiceName,
-			NodeName:     node.Name,
-			State:        domain.ResourceStateCreated,
+		updateStateReq := domain.Service{
+			Name: req.ServiceName,
+			//NodeName: node.Name,
+			State: domain.ServiceStateCreated,
 		}
 		if len(resourceInstance.Ports) != 0 {
-			updateStateReq.Port = resourceInstance.Ports[0].Host
+			// TODO
+			//updateStateReq.Port = resourceInstance.Ports[0].Host
 		}
 
-		err = r.resourceData.Update(ctx, updateStateReq)
+		err = r.resourceData.UpdateState(ctx, updateStateReq)
 		if err != nil {
 			return errors.Wrap(err, "error changing state of resource")
 		}

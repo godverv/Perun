@@ -10,14 +10,14 @@ Content-Type: application/json
   }
 }
 
-### Run service
-POST {{perun}}/service/run
+### Create service
+POST {{perun}}/service/new
 Content-Type: application/json
 
 {
-  "image_name": "redsockdev/red-cart:v0.0.13",
+  "image_name": "redsockdev/red-cart:v0.0.17",
   "service_name": "red-cart",
-  "replication_factor": 1
+  "replicas": 1
 }
 
 ### GET Version

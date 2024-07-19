@@ -8,7 +8,7 @@ import (
 
 type Data interface {
 	Nodes() Nodes
-	Resources() Resources
+	Services() Services
 
 	Connections() ConnectionCache
 }
@@ -19,18 +19,23 @@ type Nodes interface {
 
 	ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]domain.VelezConnection, error)
 	ListConnections(ctx context.Context, req domain.ListVelezNodes) ([]domain.VelezConnection, error)
-	ListLeastUsedNodes(ctx context.Context, req domain.PickNodeReq) ([]domain.VelezConnection, error)
+	ListLeastUsedNodes(ctx context.Context, req domain.PickNodesReq) ([]domain.VelezConnection, error)
 }
 
-type Resources interface {
-	List(ctx context.Context, req domain.ListResources) ([]domain.Resource, error)
-	Get(ctx context.Context, name string) ([]domain.Resource, error)
-	Create(ctx context.Context, resource domain.Resource) error
+type Services interface {
+	Upsert(ctx context.Context, resource ...domain.Service) error
+	UpdateState(ctx context.Context, resource domain.Service) error
 
-	Update(ctx context.Context, resource domain.Resource) error
+	Get(ctx context.Context, name string) (*domain.Service, error)
+	List(ctx context.Context, serviceNamePattern string) ([]domain.Service, error)
+	ListChildren(ctx context.Context, parentName string) ([]domain.Service, error)
 }
 
 type ConnectionCache interface {
 	Add(nodes ...domain.Node)
 	Get(names ...string) ([]domain.Node, error)
+}
+
+type Row interface {
+	Scan(dest ...interface{}) error
 }

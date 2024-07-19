@@ -54,15 +54,15 @@ export type ListNodesResponse = {
 
 export type ListNodes = Record<string, never>;
 
-export type RunServiceRequest = {
+export type CreateServiceRequest = {
   imageName?: string;
   serviceName?: string;
-  replicationFactor?: number;
+  replicas?: number;
 };
 
-export type RunServiceResponse = Record<string, never>;
+export type CreateServiceResponse = Record<string, never>;
 
-export type RunService = Record<string, never>;
+export type CreateService = Record<string, never>;
 
 export class PerunAPI {
   static Version(this:void, req: VersionRequest, initReq?: fm.InitReq): Promise<VersionResponse> {
@@ -74,7 +74,7 @@ export class PerunAPI {
   static ListNodes(this:void, req: ListNodesRequest, initReq?: fm.InitReq): Promise<ListNodesResponse> {
     return fm.fetchRequest<ListNodesResponse>(`/velez/list`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
-  static RunService(this:void, req: RunServiceRequest, initReq?: fm.InitReq): Promise<RunServiceResponse> {
-    return fm.fetchRequest<RunServiceResponse>(`/service/run`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+  static CreateService(this:void, req: CreateServiceRequest, initReq?: fm.InitReq): Promise<CreateServiceResponse> {
+    return fm.fetchRequest<CreateServiceResponse>(`/service/new`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }

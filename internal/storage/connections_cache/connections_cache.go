@@ -2,6 +2,7 @@ package connections_cache
 
 import (
 	"context"
+	"strconv"
 
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/godverv/Velez/pkg/velez_api"
@@ -26,7 +27,8 @@ type Velez struct {
 }
 
 func NewVelezService(velezConnection domain.VelezConnection) (velez_api.VelezAPIClient, error) {
-	conn, err := getGrpcConnection(velezConnection.Node.Addr)
+	conn, err := getGrpcConnection(velezConnection.Node.Addr + ":" +
+		strconv.Itoa(velezConnection.Node.Port))
 	if err != nil {
 		return nil, errors.Wrap(err, "")
 	}

@@ -47,16 +47,11 @@ func New(
 	return &ServiceRunner{
 		steps: []Step{
 
-			NewInitStep(data.Resources()),
-			NewGetNodesStep(services.Nodes()),
-			NewPreSyncConfigStep(),
-			NewSyncDependenciesStep(services.Resources(), data.Resources(), matreshkaClient),
-
-			NewCreateResourcesStep(data.Resources()),
+			NewCreateResourcesStep(data.Services()),
 			NewSyncConfigStep(matreshkaClient),
-			NewRunServiceStep(data.Resources()),
+			NewRunServiceStep(data.Services()),
 
-			NewPostRunStep(data.Resources()),
+			NewPostRunStep(data.Services()),
 		},
 
 		maxParallel: 2,
@@ -87,12 +82,7 @@ func (s *ServiceRunner) Run(ctx context.Context) chan RunServiceReq {
 				}()
 
 			case <-ctx.Done():
-
 				wg.Wait()
-				err := ctx.Err()
-				if err != nil {
-					logrus.Error(errors.Wrap(err, "error from ctx"))
-				}
 			}
 		}
 	}()

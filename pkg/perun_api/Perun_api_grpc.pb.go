@@ -19,10 +19,10 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	PerunAPI_Version_FullMethodName      = "/perun_api.PerunAPI/Version"
-	PerunAPI_ConnectVelez_FullMethodName = "/perun_api.PerunAPI/ConnectVelez"
-	PerunAPI_ListNodes_FullMethodName    = "/perun_api.PerunAPI/ListNodes"
-	PerunAPI_RunService_FullMethodName   = "/perun_api.PerunAPI/RunService"
+	PerunAPI_Version_FullMethodName       = "/perun_api.PerunAPI/Version"
+	PerunAPI_ConnectVelez_FullMethodName  = "/perun_api.PerunAPI/ConnectVelez"
+	PerunAPI_ListNodes_FullMethodName     = "/perun_api.PerunAPI/ListNodes"
+	PerunAPI_CreateService_FullMethodName = "/perun_api.PerunAPI/CreateService"
 )
 
 // PerunAPIClient is the client API for PerunAPI service.
@@ -32,7 +32,7 @@ type PerunAPIClient interface {
 	Version(ctx context.Context, in *Version_Request, opts ...grpc.CallOption) (*Version_Response, error)
 	ConnectVelez(ctx context.Context, in *ConnectVelez_Request, opts ...grpc.CallOption) (*ConnectVelez_Response, error)
 	ListNodes(ctx context.Context, in *ListNodes_Request, opts ...grpc.CallOption) (*ListNodes_Response, error)
-	RunService(ctx context.Context, in *RunService_Request, opts ...grpc.CallOption) (*RunService_Response, error)
+	CreateService(ctx context.Context, in *CreateService_Request, opts ...grpc.CallOption) (*CreateService_Response, error)
 }
 
 type perunAPIClient struct {
@@ -70,9 +70,9 @@ func (c *perunAPIClient) ListNodes(ctx context.Context, in *ListNodes_Request, o
 	return out, nil
 }
 
-func (c *perunAPIClient) RunService(ctx context.Context, in *RunService_Request, opts ...grpc.CallOption) (*RunService_Response, error) {
-	out := new(RunService_Response)
-	err := c.cc.Invoke(ctx, PerunAPI_RunService_FullMethodName, in, out, opts...)
+func (c *perunAPIClient) CreateService(ctx context.Context, in *CreateService_Request, opts ...grpc.CallOption) (*CreateService_Response, error) {
+	out := new(CreateService_Response)
+	err := c.cc.Invoke(ctx, PerunAPI_CreateService_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,7 +86,7 @@ type PerunAPIServer interface {
 	Version(context.Context, *Version_Request) (*Version_Response, error)
 	ConnectVelez(context.Context, *ConnectVelez_Request) (*ConnectVelez_Response, error)
 	ListNodes(context.Context, *ListNodes_Request) (*ListNodes_Response, error)
-	RunService(context.Context, *RunService_Request) (*RunService_Response, error)
+	CreateService(context.Context, *CreateService_Request) (*CreateService_Response, error)
 	mustEmbedUnimplementedPerunAPIServer()
 }
 
@@ -103,8 +103,8 @@ func (UnimplementedPerunAPIServer) ConnectVelez(context.Context, *ConnectVelez_R
 func (UnimplementedPerunAPIServer) ListNodes(context.Context, *ListNodes_Request) (*ListNodes_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListNodes not implemented")
 }
-func (UnimplementedPerunAPIServer) RunService(context.Context, *RunService_Request) (*RunService_Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RunService not implemented")
+func (UnimplementedPerunAPIServer) CreateService(context.Context, *CreateService_Request) (*CreateService_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateService not implemented")
 }
 func (UnimplementedPerunAPIServer) mustEmbedUnimplementedPerunAPIServer() {}
 
@@ -173,20 +173,20 @@ func _PerunAPI_ListNodes_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PerunAPI_RunService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RunService_Request)
+func _PerunAPI_CreateService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(CreateService_Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PerunAPIServer).RunService(ctx, in)
+		return srv.(PerunAPIServer).CreateService(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: PerunAPI_RunService_FullMethodName,
+		FullMethod: PerunAPI_CreateService_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PerunAPIServer).RunService(ctx, req.(*RunService_Request))
+		return srv.(PerunAPIServer).CreateService(ctx, req.(*CreateService_Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -211,8 +211,8 @@ var PerunAPI_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PerunAPI_ListNodes_Handler,
 		},
 		{
-			MethodName: "RunService",
-			Handler:    _PerunAPI_RunService_Handler,
+			MethodName: "CreateService",
+			Handler:    _PerunAPI_CreateService_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

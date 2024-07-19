@@ -13,13 +13,13 @@ import (
 
 var ErrEmptyRequest = errors.New("empty request")
 
-func (impl *Implementation) ConnectVelez(ctx context.Context, req *perun_api.ConnectVelez_Request) (*perun_api.ConnectVelez_Response, error) {
+func (s *Impl) ConnectVelez(ctx context.Context, req *perun_api.ConnectVelez_Request) (*perun_api.ConnectVelez_Response, error) {
 	velezNode, err := fromVelezNode(req)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
 
-	err = impl.nodeService.NewVelezConnection(ctx, velezNode)
+	err = s.nodeService.NewVelezConnection(ctx, velezNode)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

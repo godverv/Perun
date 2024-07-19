@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/service/run": {
+    "/service/new": {
       "post": {
-        "operationId": "PerunAPI_RunService",
+        "operationId": "PerunAPI_CreateService",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/perun_apiRunServiceResponse"
+              "$ref": "#/definitions/perun_apiCreateServiceResponse"
             }
           },
           "default": {
@@ -39,7 +39,7 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/perun_apiRunServiceRequest"
+              "$ref": "#/definitions/perun_apiCreateServiceRequest"
             }
           }
         ],
@@ -150,6 +150,25 @@
     "perun_apiConnectVelezResponse": {
       "type": "object"
     },
+    "perun_apiCreateServiceRequest": {
+      "type": "object",
+      "properties": {
+        "imageName": {
+          "type": "string"
+        },
+        "serviceName": {
+          "type": "string"
+        },
+        "replicas": {
+          "type": "integer",
+          "format": "int64",
+          "title": "the amount of replicas needed to start and support running"
+        }
+      }
+    },
+    "perun_apiCreateServiceResponse": {
+      "type": "object"
+    },
     "perun_apiListNodesRequest": {
       "type": "object",
       "properties": {
@@ -202,25 +221,6 @@
           "type": "boolean"
         }
       }
-    },
-    "perun_apiRunServiceRequest": {
-      "type": "object",
-      "properties": {
-        "imageName": {
-          "type": "string"
-        },
-        "serviceName": {
-          "type": "string"
-        },
-        "replicationFactor": {
-          "type": "integer",
-          "format": "int64",
-          "title": "the amount of replicas needed to start and support running"
-        }
-      }
-    },
-    "perun_apiRunServiceResponse": {
-      "type": "object"
     },
     "perun_apiSsh": {
       "type": "object",

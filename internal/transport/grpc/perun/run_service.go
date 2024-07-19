@@ -3,20 +3,24 @@ package perun
 import (
 	"context"
 
-	"github.com/Red-Sock/Perun/internal/async_services/run_service"
-	"github.com/Red-Sock/Perun/pkg/perun_api"
+	errors "github.com/Red-Sock/trace-errors"
+
+	"github.com/Red-Sock/Perun/internal/domain"
+	api "github.com/Red-Sock/Perun/pkg/perun_api"
 )
 
-func (impl *Implementation) RunService(
-	ctx context.Context, req *perun_api.RunService_Request) (
-	*perun_api.RunService_Response, error) {
+func (s *Impl) CreateService(_ context.Context, req *api.CreateService_Request) (
+	*api.CreateService_Response, error) {
 
-	runServiceReq := run_service.RunServiceReq{
+	initServiceReq := domain.InitServiceReq{
 		ServiceName:       req.ServiceName,
 		ImageName:         req.ImageName,
-		ReplicationFactor: req.ReplicationFactor,
+		ReplicationFactor: int(req.Replicas),
 	}
-	impl.createServiceQ <- runServiceReq
+	err := s.initServiceQueue.Dispatch(initServiceReq)
+	if err != nil {
+		return nil, errors.Wrap(err)
+	}
 
-	return &perun_api.RunService_Response{}, nil
+	return &api.CreateService_Response{}, nil
 }

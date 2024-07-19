@@ -11,7 +11,8 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 	"github.com/sirupsen/logrus"
 
-	"github.com/Red-Sock/Perun/internal/async_services/run_service"
+	"github.com/Red-Sock/Perun/internal/async_services"
+	"github.com/Red-Sock/Perun/internal/async_services/in_async_service"
 	grpcResource "github.com/Red-Sock/Perun/internal/clients/grpc"
 	"github.com/Red-Sock/Perun/internal/clients/sqlite"
 	"github.com/Red-Sock/Perun/internal/config"
@@ -51,19 +52,21 @@ func start() error {
 	if err != nil {
 		return errors.Wrap(err, "error initializing matreshka client")
 	}
-
+	// TODO
+	_ = matreshkaBeClient
 	store, err := initStorage(cfg)
 	if err != nil {
 		return errors.Wrap(err, "error initializing storage")
 	}
 
-	srv := v1.NewService(store, matreshkaBeClient)
+	srv := v1.NewService(store)
 
-	cronWarmCache(store)
+	cronCacheWarmUp(store)
 
-	runServiceQ := run_service.New(srv, store, matreshkaBeClient).Run(ctx)
+	as := in_async_service.New(store, srv)
+	closer.Add(as.Stop)
 
-	err = runGrpcServer(ctx, cfg, srv, runServiceQ)
+	err = runGrpcServer(ctx, cfg, srv, as)
 	if err != nil {
 		return errors.Wrap(err, "error running server")
 	}
@@ -106,13 +109,13 @@ func initStorage(cfg config.Config) (storage.Data, error) {
 	return s, nil
 }
 
-func runGrpcServer(ctx context.Context, cfg config.Config, srv service.Services, runServiceQ chan<- run_service.RunServiceReq) error {
+func runGrpcServer(ctx context.Context, cfg config.Config, srv service.Services, queue async_services.AsyncService) error {
 	grpcServerCfg, err := cfg.GetServers().GRPC(config.ServerGrpc)
 	if err != nil {
 		return errors.Wrap(err, "error getting grpc server config")
 	}
 
-	perunImp := perun.New(cfg, srv.Nodes(), runServiceQ)
+	perunImp := perun.New(cfg, srv.Nodes(), queue)
 
 	grpcApi, err := grpc.NewServer(grpcServerCfg, perunImp)
 	if err != nil {
@@ -129,6 +132,6 @@ func runGrpcServer(ctx context.Context, cfg config.Config, srv service.Services,
 	return nil
 }
 
-func cronWarmCache(d storage.Data) {
+func cronCacheWarmUp(d storage.Data) {
 	cron.New(time.Minute, warm_up_cache.New(d).Do)
 }

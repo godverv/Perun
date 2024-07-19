@@ -8,11 +8,12 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (n *NodesService) PickNodes(ctx context.Context, req domain.PickNodeReq) ([]domain.Node, error) {
+func (n *NodesService) PickNodes(ctx context.Context, req domain.PickNodesReq) ([]domain.Node, error) {
 	velezConnections, err := n.nodesStore.ListLeastUsedNodes(ctx, req)
 	if err != nil {
 		return nil, errors.Wrap(err, "error listing velezConnections")
 	}
+
 	nodesNames := make([]string, 0, len(velezConnections))
 	for _, node := range velezConnections {
 		nodesNames = append(nodesNames, node.Node.Name)

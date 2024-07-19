@@ -1,32 +1,19 @@
 package v1
 
 import (
-	"github.com/godverv/matreshka-be/pkg/matreshka_api"
-
 	"github.com/Red-Sock/Perun/internal/service"
 	"github.com/Red-Sock/Perun/internal/service/v1/nodes_service"
-	"github.com/Red-Sock/Perun/internal/service/v1/resource_service"
 	"github.com/Red-Sock/Perun/internal/storage"
 )
 
 type services struct {
-	nodes     service.NodesService
-	resources service.ResourceService
+	nodes service.NodesService
 }
 
-func NewService(storage storage.Data, client matreshka_api.MatreshkaBeAPIClient) service.Services {
-	nodes := nodes_service.New(storage)
-
-	resources := resource_service.New(client)
-
+func NewService(storage storage.Data) service.Services {
 	return &services{
-		nodes:     nodes,
-		resources: resources,
+		nodes: nodes_service.New(storage),
 	}
-}
-
-func (s *services) Resources() service.ResourceService {
-	return s.resources
 }
 
 func (s *services) Nodes() service.NodesService {

@@ -10,13 +10,13 @@ import (
 	"github.com/Red-Sock/Perun/pkg/perun_api"
 )
 
-func (impl *Implementation) ListNodes(ctx context.Context, req *perun_api.ListNodes_Request) (*perun_api.ListNodes_Response, error) {
+func (s *Impl) ListNodes(ctx context.Context, req *perun_api.ListNodes_Request) (*perun_api.ListNodes_Response, error) {
 	listReq := domain.ListVelezNodes{
 		SearchPattern: req.GetSearchPattern(),
 		Paging:        fromPaging(req.Paging),
 	}
 
-	nodes, err := impl.nodeService.ListNodes(ctx, listReq)
+	nodes, err := s.nodeService.ListNodes(ctx, listReq)
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
 	}

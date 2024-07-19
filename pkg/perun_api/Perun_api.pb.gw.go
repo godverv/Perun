@@ -101,28 +101,28 @@ func local_request_PerunAPI_ListNodes_0(ctx context.Context, marshaler runtime.M
 
 }
 
-func request_PerunAPI_RunService_0(ctx context.Context, marshaler runtime.Marshaler, client PerunAPIClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq RunService_Request
+func request_PerunAPI_CreateService_0(ctx context.Context, marshaler runtime.Marshaler, client PerunAPIClient, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateService_Request
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := client.RunService(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
+	msg, err := client.CreateService(ctx, &protoReq, grpc.Header(&metadata.HeaderMD), grpc.Trailer(&metadata.TrailerMD))
 	return msg, metadata, err
 
 }
 
-func local_request_PerunAPI_RunService_0(ctx context.Context, marshaler runtime.Marshaler, server PerunAPIServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
-	var protoReq RunService_Request
+func local_request_PerunAPI_CreateService_0(ctx context.Context, marshaler runtime.Marshaler, server PerunAPIServer, req *http.Request, pathParams map[string]string) (proto.Message, runtime.ServerMetadata, error) {
+	var protoReq CreateService_Request
 	var metadata runtime.ServerMetadata
 
 	if err := marshaler.NewDecoder(req.Body).Decode(&protoReq); err != nil && err != io.EOF {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
-	msg, err := server.RunService(ctx, &protoReq)
+	msg, err := server.CreateService(ctx, &protoReq)
 	return msg, metadata, err
 
 }
@@ -208,7 +208,7 @@ func RegisterPerunAPIHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 
 	})
 
-	mux.Handle("POST", pattern_PerunAPI_RunService_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_PerunAPI_CreateService_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		var stream runtime.ServerTransportStream
@@ -216,12 +216,12 @@ func RegisterPerunAPIHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/perun_api.PerunAPI/RunService", runtime.WithHTTPPathPattern("/service/run"))
+		annotatedContext, err = runtime.AnnotateIncomingContext(ctx, mux, req, "/perun_api.PerunAPI/CreateService", runtime.WithHTTPPathPattern("/service/new"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := local_request_PerunAPI_RunService_0(annotatedContext, inboundMarshaler, server, req, pathParams)
+		resp, md, err := local_request_PerunAPI_CreateService_0(annotatedContext, inboundMarshaler, server, req, pathParams)
 		md.HeaderMD, md.TrailerMD = metadata.Join(md.HeaderMD, stream.Header()), metadata.Join(md.TrailerMD, stream.Trailer())
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
@@ -229,7 +229,7 @@ func RegisterPerunAPIHandlerServer(ctx context.Context, mux *runtime.ServeMux, s
 			return
 		}
 
-		forward_PerunAPI_RunService_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_PerunAPI_CreateService_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -340,25 +340,25 @@ func RegisterPerunAPIHandlerClient(ctx context.Context, mux *runtime.ServeMux, c
 
 	})
 
-	mux.Handle("POST", pattern_PerunAPI_RunService_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
+	mux.Handle("POST", pattern_PerunAPI_CreateService_0, func(w http.ResponseWriter, req *http.Request, pathParams map[string]string) {
 		ctx, cancel := context.WithCancel(req.Context())
 		defer cancel()
 		inboundMarshaler, outboundMarshaler := runtime.MarshalerForRequest(mux, req)
 		var err error
 		var annotatedContext context.Context
-		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/perun_api.PerunAPI/RunService", runtime.WithHTTPPathPattern("/service/run"))
+		annotatedContext, err = runtime.AnnotateContext(ctx, mux, req, "/perun_api.PerunAPI/CreateService", runtime.WithHTTPPathPattern("/service/new"))
 		if err != nil {
 			runtime.HTTPError(ctx, mux, outboundMarshaler, w, req, err)
 			return
 		}
-		resp, md, err := request_PerunAPI_RunService_0(annotatedContext, inboundMarshaler, client, req, pathParams)
+		resp, md, err := request_PerunAPI_CreateService_0(annotatedContext, inboundMarshaler, client, req, pathParams)
 		annotatedContext = runtime.NewServerMetadataContext(annotatedContext, md)
 		if err != nil {
 			runtime.HTTPError(annotatedContext, mux, outboundMarshaler, w, req, err)
 			return
 		}
 
-		forward_PerunAPI_RunService_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
+		forward_PerunAPI_CreateService_0(annotatedContext, mux, outboundMarshaler, w, req, resp, mux.GetForwardResponseOptions()...)
 
 	})
 
@@ -372,7 +372,7 @@ var (
 
 	pattern_PerunAPI_ListNodes_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"velez", "list"}, ""))
 
-	pattern_PerunAPI_RunService_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"service", "run"}, ""))
+	pattern_PerunAPI_CreateService_0 = runtime.MustPattern(runtime.NewPattern(1, []int{2, 0, 2, 1}, []string{"service", "new"}, ""))
 )
 
 var (
@@ -382,5 +382,5 @@ var (
 
 	forward_PerunAPI_ListNodes_0 = runtime.ForwardResponseMessage
 
-	forward_PerunAPI_RunService_0 = runtime.ForwardResponseMessage
+	forward_PerunAPI_CreateService_0 = runtime.ForwardResponseMessage
 )

@@ -1,7 +1,7 @@
 -- +goose Up
 CREATE TABLE IF NOT EXISTS nodes
 (
-    node_name             TEXT PRIMARY KEY,
+    name             TEXT PRIMARY KEY,
     addr                  TEXT,
     velez_port            INT,
     custom_velez_key_path TEXT,
