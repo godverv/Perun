@@ -3,7 +3,7 @@ package domain
 type Velez struct {
 	Name               string
 	Addr               string
-	Port               int
+	Port               *int
 	CustomVelezKeyPath string
 	IsInsecure         bool
 }
@@ -16,7 +16,7 @@ type Ssh struct {
 
 type VelezConnection struct {
 	Node Velez
-	Ssh  Ssh
+	Ssh  *Ssh
 }
 
 type ListVelezNodes struct {

@@ -6,6 +6,6 @@ type InitServiceReq struct {
 	ReplicationFactor int
 }
 
-type SyncServiceInfo struct {
-	Service Service
+type RefreshService struct {
+	ServiceName string
 }

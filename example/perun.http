@@ -5,7 +5,8 @@ Content-Type: application/json
 {
   "node": {
     "name": "local_dev",
-    "addr": "0.0.0.0:50051",
+    "addr": "0.0.0.0",
+    "port": 53890,
     "security_disabled": true
   }
 }

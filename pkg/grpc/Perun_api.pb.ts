@@ -19,6 +19,7 @@ export type Version = Record<string, never>;
 export type Node = {
   name?: string;
   addr?: string;
+  port?: number;
   customVelezKeyPath?: string;
   securityDisabled?: boolean;
 };
@@ -64,6 +65,14 @@ export type CreateServiceResponse = Record<string, never>;
 
 export type CreateService = Record<string, never>;
 
+export type RefreshServiceRequest = {
+  serviceName?: string;
+};
+
+export type RefreshServiceResponse = Record<string, never>;
+
+export type RefreshService = Record<string, never>;
+
 export class PerunAPI {
   static Version(this:void, req: VersionRequest, initReq?: fm.InitReq): Promise<VersionResponse> {
     return fm.fetchRequest<VersionResponse>(`/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
@@ -76,5 +85,8 @@ export class PerunAPI {
   }
   static CreateService(this:void, req: CreateServiceRequest, initReq?: fm.InitReq): Promise<CreateServiceResponse> {
     return fm.fetchRequest<CreateServiceResponse>(`/service/new`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+  }
+  static RefreshService(this:void, req: RefreshServiceRequest, initReq?: fm.InitReq): Promise<RefreshServiceResponse> {
+    return fm.fetchRequest<RefreshServiceResponse>(`/service/${req.serviceName}/refresh`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }

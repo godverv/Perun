@@ -8,6 +8,8 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
+var ErrNoNodes = errors.New("no nodes")
+
 func (n *NodesService) PickNodes(ctx context.Context, req domain.PickNodesReq) ([]domain.Node, error) {
 	velezConnections, err := n.nodesStore.ListLeastUsedNodes(ctx, req)
 	if err != nil {
@@ -22,6 +24,10 @@ func (n *NodesService) PickNodes(ctx context.Context, req domain.PickNodesReq) (
 	nodes, err := n.connectionsCache.Get(nodesNames...)
 	if err != nil {
 		return nil, errors.Wrap(err, "error getting nodes by name from cache")
+	}
+
+	if len(nodes) == 0 {
+		return nil, errors.Wrap(ErrNoNodes)
 	}
 
 	return nodes, nil

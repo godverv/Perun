@@ -19,10 +19,11 @@ import (
 const _ = grpc.SupportPackageIsVersion7
 
 const (
-	PerunAPI_Version_FullMethodName       = "/perun_api.PerunAPI/Version"
-	PerunAPI_ConnectVelez_FullMethodName  = "/perun_api.PerunAPI/ConnectVelez"
-	PerunAPI_ListNodes_FullMethodName     = "/perun_api.PerunAPI/ListNodes"
-	PerunAPI_CreateService_FullMethodName = "/perun_api.PerunAPI/CreateService"
+	PerunAPI_Version_FullMethodName        = "/perun_api.PerunAPI/Version"
+	PerunAPI_ConnectVelez_FullMethodName   = "/perun_api.PerunAPI/ConnectVelez"
+	PerunAPI_ListNodes_FullMethodName      = "/perun_api.PerunAPI/ListNodes"
+	PerunAPI_CreateService_FullMethodName  = "/perun_api.PerunAPI/CreateService"
+	PerunAPI_RefreshService_FullMethodName = "/perun_api.PerunAPI/RefreshService"
 )
 
 // PerunAPIClient is the client API for PerunAPI service.
@@ -33,6 +34,7 @@ type PerunAPIClient interface {
 	ConnectVelez(ctx context.Context, in *ConnectVelez_Request, opts ...grpc.CallOption) (*ConnectVelez_Response, error)
 	ListNodes(ctx context.Context, in *ListNodes_Request, opts ...grpc.CallOption) (*ListNodes_Response, error)
 	CreateService(ctx context.Context, in *CreateService_Request, opts ...grpc.CallOption) (*CreateService_Response, error)
+	RefreshService(ctx context.Context, in *RefreshService_Request, opts ...grpc.CallOption) (*RefreshService_Response, error)
 }
 
 type perunAPIClient struct {
@@ -79,6 +81,15 @@ func (c *perunAPIClient) CreateService(ctx context.Context, in *CreateService_Re
 	return out, nil
 }
 
+func (c *perunAPIClient) RefreshService(ctx context.Context, in *RefreshService_Request, opts ...grpc.CallOption) (*RefreshService_Response, error) {
+	out := new(RefreshService_Response)
+	err := c.cc.Invoke(ctx, PerunAPI_RefreshService_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PerunAPIServer is the server API for PerunAPI service.
 // All implementations must embed UnimplementedPerunAPIServer
 // for forward compatibility
@@ -87,6 +98,7 @@ type PerunAPIServer interface {
 	ConnectVelez(context.Context, *ConnectVelez_Request) (*ConnectVelez_Response, error)
 	ListNodes(context.Context, *ListNodes_Request) (*ListNodes_Response, error)
 	CreateService(context.Context, *CreateService_Request) (*CreateService_Response, error)
+	RefreshService(context.Context, *RefreshService_Request) (*RefreshService_Response, error)
 	mustEmbedUnimplementedPerunAPIServer()
 }
 
@@ -105,6 +117,9 @@ func (UnimplementedPerunAPIServer) ListNodes(context.Context, *ListNodes_Request
 }
 func (UnimplementedPerunAPIServer) CreateService(context.Context, *CreateService_Request) (*CreateService_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateService not implemented")
+}
+func (UnimplementedPerunAPIServer) RefreshService(context.Context, *RefreshService_Request) (*RefreshService_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RefreshService not implemented")
 }
 func (UnimplementedPerunAPIServer) mustEmbedUnimplementedPerunAPIServer() {}
 
@@ -191,6 +206,24 @@ func _PerunAPI_CreateService_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PerunAPI_RefreshService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RefreshService_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PerunAPIServer).RefreshService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PerunAPI_RefreshService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PerunAPIServer).RefreshService(ctx, req.(*RefreshService_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PerunAPI_ServiceDesc is the grpc.ServiceDesc for PerunAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -213,6 +246,10 @@ var PerunAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "CreateService",
 			Handler:    _PerunAPI_CreateService_Handler,
+		},
+		{
+			MethodName: "RefreshService",
+			Handler:    _PerunAPI_RefreshService_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

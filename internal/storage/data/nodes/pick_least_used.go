@@ -37,7 +37,13 @@ func (p *Provider) ListLeastUsedNodes(ctx context.Context, req domain.PickNodesR
 
 	out := make([]domain.VelezConnection, 0, req.NodesCount)
 	for r.Next() {
-		out = append(out, scanVelezConnection(r))
+		var v domain.VelezConnection
+		v, err = scanVelezConnection(r)
+		if err != nil {
+			return nil, errors.Wrap(err, "error scanning nodes")
+		}
+
+		out = append(out, v)
 	}
 
 	err = r.Err()
@@ -48,18 +54,33 @@ func (p *Provider) ListLeastUsedNodes(ctx context.Context, req domain.PickNodesR
 	return out, nil
 }
 
-func scanVelezConnection(row *sql.Rows) (node domain.VelezConnection) {
-	_ = row.Scan(
+func scanVelezConnection(row *sql.Rows) (node domain.VelezConnection, err error) {
+	var key *[]byte
+	var username *string
+	var port *uint64
+
+	err = row.Scan(
 		&node.Node.Name,
 		&node.Node.Addr,
 		&node.Node.Port,
 		&node.Node.CustomVelezKeyPath,
 		&node.Node.IsInsecure,
 
-		&node.Ssh.Key,
-		&node.Ssh.Port,
-		&node.Ssh.Username,
+		&key,
+		&port,
+		&username,
 	)
+	if err != nil {
+		return node, errors.Wrap(err, "error scanning")
+	}
 
-	return node
+	if key != nil && port != nil && username != nil {
+		node.Ssh = &domain.Ssh{
+			Key:      *key,
+			Port:     *port,
+			Username: *username,
+		}
+	}
+
+	return node, nil
 }

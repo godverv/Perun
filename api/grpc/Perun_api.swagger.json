@@ -48,6 +48,44 @@
         ]
       }
     },
+    "/service/{serviceName}/refresh": {
+      "post": {
+        "operationId": "PerunAPI_RefreshService",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/perun_apiRefreshServiceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/perun_apiPerunAPIRefreshServiceBody"
+            }
+          }
+        ],
+        "tags": [
+          "PerunAPI"
+        ]
+      }
+    },
     "/velez": {
       "post": {
         "operationId": "PerunAPI_ConnectVelez",
@@ -214,6 +252,10 @@
         "addr": {
           "type": "string"
         },
+        "port": {
+          "type": "integer",
+          "format": "int64"
+        },
         "customVelezKeyPath": {
           "type": "string"
         },
@@ -221,6 +263,12 @@
           "type": "boolean"
         }
       }
+    },
+    "perun_apiPerunAPIRefreshServiceBody": {
+      "type": "object"
+    },
+    "perun_apiRefreshServiceResponse": {
+      "type": "object"
     },
     "perun_apiSsh": {
       "type": "object",

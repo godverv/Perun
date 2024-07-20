@@ -1,8 +1,11 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS resources (
-    resource_name TEXT,
-    service_name TEXT REFERENCES services(name)
+CREATE TABLE IF NOT EXISTS resources
+(
+    name         TEXT PRIMARY KEY,
+    service_name TEXT REFERENCES services (name),
+    image        TEXT,
+    state        INT
 );
 -- +goose StatementEnd
 

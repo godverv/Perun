@@ -158,6 +158,10 @@ func (m *Node) validate(all bool) error {
 
 	// no validation rules for Addr
 
+	if m.Port != nil {
+		// no validation rules for Port
+	}
+
 	if m.CustomVelezKeyPath != nil {
 		// no validation rules for CustomVelezKeyPath
 	}
@@ -747,6 +751,106 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateServiceValidationError{}
+
+// Validate checks the field values on RefreshService with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *RefreshService) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RefreshService with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in RefreshServiceMultiError,
+// or nil if none found.
+func (m *RefreshService) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RefreshService) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return RefreshServiceMultiError(errors)
+	}
+
+	return nil
+}
+
+// RefreshServiceMultiError is an error wrapping multiple validation errors
+// returned by RefreshService.ValidateAll() if the designated constraints
+// aren't met.
+type RefreshServiceMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RefreshServiceMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RefreshServiceMultiError) AllErrors() []error { return m }
+
+// RefreshServiceValidationError is the validation error returned by
+// RefreshService.Validate if the designated constraints aren't met.
+type RefreshServiceValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RefreshServiceValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RefreshServiceValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RefreshServiceValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RefreshServiceValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RefreshServiceValidationError) ErrorName() string { return "RefreshServiceValidationError" }
+
+// Error satisfies the builtin error interface
+func (e RefreshServiceValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRefreshService.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RefreshServiceValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RefreshServiceValidationError{}
 
 // Validate checks the field values on Version_Request with the rules defined
 // in the proto definition for this message. If any rules are violated, the
@@ -1692,3 +1796,209 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = CreateService_ResponseValidationError{}
+
+// Validate checks the field values on RefreshService_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RefreshService_Request) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RefreshService_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RefreshService_RequestMultiError, or nil if none found.
+func (m *RefreshService_Request) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RefreshService_Request) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ServiceName
+
+	if len(errors) > 0 {
+		return RefreshService_RequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// RefreshService_RequestMultiError is an error wrapping multiple validation
+// errors returned by RefreshService_Request.ValidateAll() if the designated
+// constraints aren't met.
+type RefreshService_RequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RefreshService_RequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RefreshService_RequestMultiError) AllErrors() []error { return m }
+
+// RefreshService_RequestValidationError is the validation error returned by
+// RefreshService_Request.Validate if the designated constraints aren't met.
+type RefreshService_RequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RefreshService_RequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RefreshService_RequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RefreshService_RequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RefreshService_RequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RefreshService_RequestValidationError) ErrorName() string {
+	return "RefreshService_RequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RefreshService_RequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRefreshService_Request.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RefreshService_RequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RefreshService_RequestValidationError{}
+
+// Validate checks the field values on RefreshService_Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RefreshService_Response) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RefreshService_Response with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RefreshService_ResponseMultiError, or nil if none found.
+func (m *RefreshService_Response) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RefreshService_Response) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return RefreshService_ResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// RefreshService_ResponseMultiError is an error wrapping multiple validation
+// errors returned by RefreshService_Response.ValidateAll() if the designated
+// constraints aren't met.
+type RefreshService_ResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RefreshService_ResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RefreshService_ResponseMultiError) AllErrors() []error { return m }
+
+// RefreshService_ResponseValidationError is the validation error returned by
+// RefreshService_Response.Validate if the designated constraints aren't met.
+type RefreshService_ResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RefreshService_ResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RefreshService_ResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RefreshService_ResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RefreshService_ResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RefreshService_ResponseValidationError) ErrorName() string {
+	return "RefreshService_ResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RefreshService_ResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRefreshService_Response.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RefreshService_ResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RefreshService_ResponseValidationError{}

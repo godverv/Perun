@@ -14,7 +14,8 @@ func (s *Services) List(ctx context.Context, serviceNamePattern string) ([]domai
 		SELECT 
 			name,
 			image,
-			state
+			state,
+			replicas
 		FROM services
 		WHERE name like '%'||$1||'%'
 `, serviceNamePattern)
@@ -44,5 +45,6 @@ func toService(row storage.Row) (res domain.Service, err error) {
 		&res.Name,
 		&res.Image,
 		&res.State,
+		&res.Replicas,
 	)
 }

@@ -44,7 +44,12 @@ func (p *Provider) ListNodes(ctx context.Context, req domain.ListVelezNodes) ([]
 	nodes := make([]domain.VelezConnection, 0, req.Limit)
 
 	for row.Next() {
-		nodes = append(nodes, scanVelezConnection(row))
+		var v domain.VelezConnection
+		v, err = scanVelezConnection(row)
+		if err != nil {
+			return nil, errors.Wrap(err, "error scanning velez connection")
+		}
+		nodes = append(nodes, v)
 	}
 
 	err = row.Err()

@@ -26,9 +26,14 @@ type Velez struct {
 	md    metadata.MD
 }
 
-func NewVelezService(velezConnection domain.VelezConnection) (velez_api.VelezAPIClient, error) {
-	conn, err := getGrpcConnection(velezConnection.Node.Addr + ":" +
-		strconv.Itoa(velezConnection.Node.Port))
+func NewVelezService(vConn domain.VelezConnection) (velez_api.VelezAPIClient, error) {
+	addr := vConn.Node.Addr
+
+	if vConn.Node.Port != nil {
+		addr += ":" + strconv.Itoa(*vConn.Node.Port)
+	}
+
+	conn, err := getGrpcConnection(addr)
 	if err != nil {
 		return nil, errors.Wrap(err, "")
 	}
@@ -36,11 +41,11 @@ func NewVelezService(velezConnection domain.VelezConnection) (velez_api.VelezAPI
 		velez: velez_api.NewVelezAPIClient(conn),
 	}
 
-	if velezConnection.Node.IsInsecure {
+	if vConn.Node.IsInsecure {
 		return srv, nil
 	}
 
-	key, err := getVelezKey(velezConnection)
+	key, err := getVelezKey(vConn)
 	if err != nil {
 		return nil, errors.Wrap(err, "error getting velez key")
 	}

@@ -1,4 +1,4 @@
-package sync_service_info
+package refresh_service_config
 
 import (
 	"context"
@@ -10,7 +10,7 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (r *RefreshServiceConfig) syncConfig(ctx context.Context, req domain.SyncServiceInfo) (matreshka.AppConfig, error) {
+func (r *RefreshServiceConfig) syncConfig(ctx context.Context, srv domain.Service) (matreshka.AppConfig, error) {
 	pickNodesReq := domain.PickNodesReq{NodesCount: 1}
 
 	cfg := matreshka.NewEmptyConfig()
@@ -21,8 +21,8 @@ func (r *RefreshServiceConfig) syncConfig(ctx context.Context, req domain.SyncSe
 	}
 
 	fetchReq := &velez_api.FetchConfig_Request{
-		ServiceName: req.Service.Name,
-		ImageName:   req.Service.Image,
+		ServiceName: srv.Name,
+		ImageName:   srv.Image,
 	}
 
 	fetchResp, err := node[0].Conn.FetchConfig(ctx, fetchReq)

@@ -19,16 +19,19 @@ type Impl struct {
 
 	nodeService service.NodesService
 
-	initServiceQueue async_services.ConsumerQueue[domain.InitServiceReq]
+	initServiceQueue    async_services.ConsumerQueue[domain.InitServiceReq]
+	refreshServiceQueue async_services.ConsumerQueue[domain.RefreshService]
 
 	version string
 }
 
 func New(cfg config.Config, nodeService service.NodesService, queue async_services.AsyncService) *Impl {
 	return &Impl{
-		version:          cfg.GetAppInfo().Version,
-		nodeService:      nodeService,
-		initServiceQueue: queue.InitServiceQueue(),
+		version:     cfg.GetAppInfo().Version,
+		nodeService: nodeService,
+
+		initServiceQueue:    queue.InitServiceQueue(),
+		refreshServiceQueue: queue.RefreshServiceQueue(),
 	}
 }
 

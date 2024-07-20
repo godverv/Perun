@@ -6,9 +6,14 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
+type Row interface {
+	Scan(dest ...interface{}) error
+}
+
 type Data interface {
 	Nodes() Nodes
 	Services() Services
+	Resources() Resources
 
 	Connections() ConnectionCache
 }
@@ -26,16 +31,16 @@ type Services interface {
 	Upsert(ctx context.Context, resource ...domain.Service) error
 	UpdateState(ctx context.Context, resource domain.Service) error
 
-	Get(ctx context.Context, name string) (*domain.Service, error)
+	Get(ctx context.Context, name string) (domain.Service, error)
 	List(ctx context.Context, serviceNamePattern string) ([]domain.Service, error)
-	ListChildren(ctx context.Context, parentName string) ([]domain.Service, error)
+}
+
+type Resources interface {
+	ListForService(ctx context.Context, name string) ([]domain.Resource, error)
+	Upsert(ctx context.Context, deps ...domain.Resource) error
 }
 
 type ConnectionCache interface {
 	Add(nodes ...domain.Node)
 	Get(names ...string) ([]domain.Node, error)
-}
-
-type Row interface {
-	Scan(dest ...interface{}) error
 }

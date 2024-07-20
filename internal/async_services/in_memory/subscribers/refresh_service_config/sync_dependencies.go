@@ -1,4 +1,4 @@
-package sync_service_info
+package refresh_service_config
 
 import (
 	"context"
@@ -11,19 +11,20 @@ import (
 )
 
 func (r *RefreshServiceConfig) syncDependencies(ctx context.Context,
-	req domain.SyncServiceInfo,
+	req domain.RefreshService,
 	config matreshka.AppConfig,
 ) error {
-	depsList, err := r.servicesData.ListChildren(ctx, req.Service.Name)
+	depsList, err := r.resourcesData.ListForService(ctx, req.ServiceName)
 	if err != nil {
 		return errors.Wrap(err, "error getting service data dependencies")
 	}
-	oldDepsMap := make(map[string]domain.Service)
+
+	oldDepsMap := make(map[string]domain.Resource)
 	for _, d := range depsList {
 		oldDepsMap[d.Name] = d
 	}
 
-	newDeps := make([]domain.Service, 0, len(config.DataSources))
+	newDeps := make([]domain.Resource, 0, len(config.DataSources))
 
 	for _, dep := range config.DataSources {
 		_, ok := oldDepsMap[dep.GetName()]
@@ -31,16 +32,21 @@ func (r *RefreshServiceConfig) syncDependencies(ctx context.Context,
 			continue
 		}
 
-		depSrv := domain.Service{
-			Name:  req.Service.Name + "_" + dep.GetName(),
-			Image: patterns.GetImageNameByType(dep.GetType()),
-			State: domain.ServiceStateCreated,
+		depSrv := domain.Resource{
+			Name:        req.ServiceName + "_" + dep.GetName(),
+			ServiceName: req.ServiceName,
+			Image:       patterns.GetImageNameByType(dep.GetType()),
+			State:       domain.ServiceStateCreated,
+		}
+
+		if depSrv.Image == "" {
+			continue
 		}
 
 		newDeps = append(newDeps, depSrv)
 	}
 
-	err = r.servicesData.Upsert(ctx, newDeps...)
+	err = r.resourcesData.Upsert(ctx, newDeps...)
 	if err != nil {
 		return errors.Wrap(err, "error upserting dependencies")
 	}

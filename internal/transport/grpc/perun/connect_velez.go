@@ -11,10 +11,12 @@ import (
 	"github.com/Red-Sock/Perun/pkg/perun_api"
 )
 
-var ErrEmptyRequest = errors.New("empty request")
+var (
+	ErrEmptyRequest = errors.New("empty request")
+)
 
 func (s *Impl) ConnectVelez(ctx context.Context, req *perun_api.ConnectVelez_Request) (*perun_api.ConnectVelez_Response, error) {
-	velezNode, err := fromVelezNode(req)
+	velezNode, err := fromVelezConn(req)
 	if err != nil {
 		return nil, status.Error(codes.InvalidArgument, err.Error())
 	}
@@ -27,22 +29,43 @@ func (s *Impl) ConnectVelez(ctx context.Context, req *perun_api.ConnectVelez_Req
 	return &perun_api.ConnectVelez_Response{}, nil
 }
 
-func fromVelezNode(in *perun_api.ConnectVelez_Request) (domain.VelezConnection, error) {
+func fromVelezConn(in *perun_api.ConnectVelez_Request) (vConn domain.VelezConnection, err error) {
 	if in == nil {
 		return domain.VelezConnection{}, ErrEmptyRequest
 	}
 
-	return domain.VelezConnection{
-		Node: domain.Velez{
-			Name:               in.GetNode().GetName(),
-			Addr:               in.GetNode().GetAddr(),
-			CustomVelezKeyPath: in.GetNode().GetCustomVelezKeyPath(),
-			IsInsecure:         in.GetNode().GetSecurityDisabled(),
-		},
-		Ssh: domain.Ssh{
-			Key:      in.GetSsh().GetKeyBase64(),
-			Port:     in.GetSsh().GetPort(),
-			Username: in.GetSsh().GetUsername(),
-		},
-	}, nil
+	vConn.Node = fromNode(in.GetNode())
+	vConn.Ssh = fromSsh(in.GetSsh())
+
+	return vConn, nil
+}
+
+func fromNode(in *perun_api.Node) domain.Velez {
+	var vConn domain.Velez
+
+	vConn = domain.Velez{
+		Name: in.GetName(),
+		Addr: in.GetAddr(),
+
+		CustomVelezKeyPath: in.GetCustomVelezKeyPath(),
+		IsInsecure:         in.GetSecurityDisabled(),
+	}
+
+	if in.Port != nil {
+		vPortUint := int(*in.Port)
+		vConn.Port = &vPortUint
+	}
+
+	return vConn
+}
+
+func fromSsh(in *perun_api.Ssh) *domain.Ssh {
+	if in == nil {
+		return nil
+	}
+	return &domain.Ssh{
+		Key:      in.GetKeyBase64(),
+		Port:     in.GetPort(),
+		Username: in.GetUsername(),
+	}
 }

@@ -23,5 +23,5 @@ type Queue[E any] interface {
 
 type AsyncService interface {
 	InitServiceQueue() ConsumerQueue[domain.InitServiceReq]
-	RefreshServiceQueue() ConsumerQueue[domain.SyncServiceInfo]
+	RefreshServiceQueue() ConsumerQueue[domain.RefreshService]
 }

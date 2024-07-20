@@ -27,9 +27,16 @@ service PerunAPI {
     };
   }
 
-  rpc CreateService(CreateService.Request)returns (CreateService.Response) {
+  rpc CreateService(CreateService.Request) returns (CreateService.Response) {
     option (google.api.http) = {
       post: "/service/new"
+      body: "*"
+    };
+  }
+
+  rpc RefreshService(RefreshService.Request) returns (RefreshService.Response) {
+    option (google.api.http) = {
+      post: "/service/{service_name}/refresh"
       body: "*"
     };
   }
@@ -46,8 +53,9 @@ message Version {
 message Node {
   string name = 1;
   string addr = 2;
-  optional string custom_velez_key_path = 6;
-  optional bool security_disabled = 7;
+  optional uint32 port = 3;
+  optional string custom_velez_key_path = 4;
+  optional bool security_disabled = 5;
 }
 
 message Ssh {
@@ -89,7 +97,13 @@ message CreateService {
     uint32 replicas = 3;
   }
 
-  message Response {
+  message Response {}
+}
 
+message RefreshService {
+  message Request {
+    string service_name = 1;
   }
+
+  message Response {}
 }

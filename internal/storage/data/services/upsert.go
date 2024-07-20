@@ -12,7 +12,12 @@ func (s *Services) Upsert(ctx context.Context, services ...domain.Service) error
 	stmp, err := s.db.PrepareContext(ctx, `
 		INSERT INTO services 
 			   ( name, image, state, replicas)
-		VALUES (   $1,    $2,    $3,       $4) 
+		VALUES (   $1,    $2,    $3,       $4)
+		ON CONFLICT (name) DO UPDATE SET 
+			 name = excluded.name,
+			 image = excluded.image, 
+			 state = excluded.state,
+			 replicas = excluded.replicas
 		`)
 	if err != nil {
 		return errors.Wrap(err, "error creating prepare statement")

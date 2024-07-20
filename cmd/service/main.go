@@ -12,7 +12,7 @@ import (
 	"github.com/sirupsen/logrus"
 
 	"github.com/Red-Sock/Perun/internal/async_services"
-	"github.com/Red-Sock/Perun/internal/async_services/in_async_service"
+	"github.com/Red-Sock/Perun/internal/async_services/in_memory"
 	grpcResource "github.com/Red-Sock/Perun/internal/clients/grpc"
 	"github.com/Red-Sock/Perun/internal/clients/sqlite"
 	"github.com/Red-Sock/Perun/internal/config"
@@ -63,7 +63,7 @@ func start() error {
 
 	cronCacheWarmUp(store)
 
-	as := in_async_service.New(store, srv)
+	as := in_memory.New(store, srv)
 	closer.Add(as.Stop)
 
 	err = runGrpcServer(ctx, cfg, srv, as)
