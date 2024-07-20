@@ -11,7 +11,7 @@ import (
 )
 
 type RefreshServiceConfig struct {
-	nodesService service.NodesService
+	configService service.ConfigService
 
 	servicesData  storage.Services
 	resourcesData storage.Resources
@@ -19,7 +19,7 @@ type RefreshServiceConfig struct {
 
 func New(data storage.Data, srv service.Services) *RefreshServiceConfig {
 	return &RefreshServiceConfig{
-		nodesService: srv.Nodes(),
+		configService: srv.Config(),
 
 		servicesData:  data.Services(),
 		resourcesData: data.Resources(),
@@ -32,7 +32,7 @@ func (r *RefreshServiceConfig) Consume(ctx context.Context, req domain.RefreshSe
 		return errors.Wrap(err, "error getting service info from storage")
 	}
 
-	cfg, err := r.syncConfig(ctx, srv)
+	cfg, err := r.configService.FetchForService(ctx, srv)
 	if err != nil {
 		return errors.Wrap(err, "error syncing config")
 	}

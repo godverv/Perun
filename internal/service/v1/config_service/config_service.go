@@ -1,4 +1,4 @@
-package refresh_service_config
+package config_service
 
 import (
 	"context"
@@ -8,14 +8,25 @@ import (
 	"github.com/godverv/matreshka"
 
 	"github.com/Red-Sock/Perun/internal/domain"
+	"github.com/Red-Sock/Perun/internal/service"
 )
 
-func (r *RefreshServiceConfig) syncConfig(ctx context.Context, srv domain.Service) (matreshka.AppConfig, error) {
+type ConfigService struct {
+	ns service.NodesService
+}
+
+func New(ns service.NodesService) *ConfigService {
+	return &ConfigService{
+		ns: ns,
+	}
+}
+
+func (c *ConfigService) FetchForService(ctx context.Context, srv domain.Service) (matreshka.AppConfig, error) {
 	pickNodesReq := domain.PickNodesReq{NodesCount: 1}
 
 	cfg := matreshka.NewEmptyConfig()
 
-	node, err := r.nodesService.PickNodes(ctx, pickNodesReq)
+	node, err := c.ns.PickNodes(ctx, pickNodesReq)
 	if err != nil {
 		return cfg, errors.Wrap(err, "error picking nodes")
 	}

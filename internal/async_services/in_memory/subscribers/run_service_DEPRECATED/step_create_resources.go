@@ -1,4 +1,4 @@
-package run_service
+package run_service_DEPRECATED
 
 import (
 	"context"

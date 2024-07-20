@@ -18,6 +18,7 @@
   "paths": {
     "/service/new": {
       "post": {
+        "summary": "CreateService - registers new service and updates it's information",
         "operationId": "PerunAPI_CreateService",
         "responses": {
           "200": {
@@ -48,8 +49,48 @@
         ]
       }
     },
+    "/service/{serviceName}/deploy": {
+      "post": {
+        "summary": "Deploys (or redeploys) service",
+        "operationId": "PerunAPI_DeployService",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/perun_apiDeployServiceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "serviceName",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/perun_apiPerunAPIDeployServiceBody"
+            }
+          }
+        ],
+        "tags": [
+          "PerunAPI"
+        ]
+      }
+    },
     "/service/{serviceName}/refresh": {
       "post": {
+        "summary": "RefreshService - refreshes service info according to config.yaml",
         "operationId": "PerunAPI_RefreshService",
         "responses": {
           "200": {
@@ -88,6 +129,7 @@
     },
     "/velez": {
       "post": {
+        "summary": "ConnectVelez - registers new working node with Velez running",
         "operationId": "PerunAPI_ConnectVelez",
         "responses": {
           "200": {
@@ -120,6 +162,7 @@
     },
     "/velez/list": {
       "post": {
+        "summary": "ListNodes - returns list of working nodes (Velez) that handle service maintenance",
         "operationId": "PerunAPI_ListNodes",
         "responses": {
           "200": {
@@ -207,6 +250,9 @@
     "perun_apiCreateServiceResponse": {
       "type": "object"
     },
+    "perun_apiDeployServiceResponse": {
+      "type": "object"
+    },
     "perun_apiListNodesRequest": {
       "type": "object",
       "properties": {
@@ -263,6 +309,9 @@
           "type": "boolean"
         }
       }
+    },
+    "perun_apiPerunAPIDeployServiceBody": {
+      "type": "object"
     },
     "perun_apiPerunAPIRefreshServiceBody": {
       "type": "object"

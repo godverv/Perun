@@ -13,6 +13,7 @@ service PerunAPI {
     };
   };
 
+  // ConnectVelez - registers new working node with Velez running
   rpc ConnectVelez(ConnectVelez.Request) returns (ConnectVelez.Response) {
     option (google.api.http) = {
       post: "/velez"
@@ -20,6 +21,7 @@ service PerunAPI {
     };
   }
 
+  // ListNodes - returns list of working nodes (Velez) that handle service maintenance
   rpc ListNodes(ListNodes.Request) returns (ListNodes.Response) {
     option (google.api.http) = {
       post: "/velez/list"
@@ -27,6 +29,7 @@ service PerunAPI {
     };
   }
 
+  // CreateService - registers new service and updates it's information
   rpc CreateService(CreateService.Request) returns (CreateService.Response) {
     option (google.api.http) = {
       post: "/service/new"
@@ -34,9 +37,18 @@ service PerunAPI {
     };
   }
 
+  // RefreshService - refreshes service info according to config.yaml
   rpc RefreshService(RefreshService.Request) returns (RefreshService.Response) {
     option (google.api.http) = {
       post: "/service/{service_name}/refresh"
+      body: "*"
+    };
+  }
+
+  // Deploys (or redeploys) service
+  rpc DeployService(DeployService.Request) returns (DeployService.Response) {
+    option (google.api.http) = {
+      post: "/service/{service_name}/deploy"
       body: "*"
     };
   }
@@ -101,6 +113,14 @@ message CreateService {
 }
 
 message RefreshService {
+  message Request {
+    string service_name = 1;
+  }
+
+  message Response {}
+}
+
+message DeployService {
   message Request {
     string service_name = 1;
   }

@@ -7,6 +7,7 @@ import (
 
 	"github.com/Red-Sock/Perun/internal/storage"
 	"github.com/Red-Sock/Perun/internal/storage/data/connections_cache"
+	"github.com/Red-Sock/Perun/internal/storage/data/deploy_log"
 	"github.com/Red-Sock/Perun/internal/storage/data/nodes"
 	"github.com/Red-Sock/Perun/internal/storage/data/resources"
 	"github.com/Red-Sock/Perun/internal/storage/data/services"
@@ -21,6 +22,7 @@ type Store struct {
 	nodes     *nodes.Provider
 	services  *services.Services
 	resources *resources.Provider
+	deployLog *deploy_log.Provider
 
 	connectionsCache *connections_cache.ConnectionCache
 }
@@ -30,6 +32,7 @@ func NewStorage(conn *sql.DB) (storage.Data, error) {
 		nodes:     nodes.NewStorage(conn),
 		services:  services.NewStorage(conn),
 		resources: resources.New(conn),
+		deployLog: deploy_log.New(conn),
 
 		connectionsCache: connections_cache.NewConnectionCache(),
 	}, nil
@@ -48,4 +51,8 @@ func (s *Store) Services() storage.Services {
 }
 func (s *Store) Connections() storage.ConnectionCache {
 	return s.connectionsCache
+}
+
+func (s *Store) DeployLogs() storage.DeployLogs {
+	return s.deployLog
 }

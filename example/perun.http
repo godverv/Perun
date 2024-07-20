@@ -1,3 +1,7 @@
+### GET Version
+GET http://localhost:53890/version
+
+
 ### Connect local velez
 POST {{perun}}/velez
 Content-Type: application/json
@@ -25,5 +29,7 @@ Content-Type: application/json
 POST {{perun}}/service/red-cart/refresh
 Content-Type: application/json
 
-### GET Version
-GET http://localhost:53890/version
+
+### Deploy service
+POST {{perun}}/service/red-cart/deploy
+Content-Type: application/json

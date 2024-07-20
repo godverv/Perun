@@ -1,7 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS instances (
-    service_name TEXT REFERENCES services(name),
+    service_name TEXT,
     node_name    TEXT REFERENCES nodes(name),
     addr         TEXT,
     state        INT
@@ -10,5 +10,5 @@ CREATE TABLE IF NOT EXISTS instances (
 
 -- +goose Down
 -- +goose StatementBegin
-SELECT 'down SQL query';
+DROP TABLE IF EXISTS instances;
 -- +goose StatementEnd

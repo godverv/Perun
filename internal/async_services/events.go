@@ -24,4 +24,5 @@ type Queue[E any] interface {
 type AsyncService interface {
 	InitServiceQueue() ConsumerQueue[domain.InitServiceReq]
 	RefreshServiceQueue() ConsumerQueue[domain.RefreshService]
+	DeployServiceQueue() ConsumerQueue[domain.DeployServiceReq]
 }

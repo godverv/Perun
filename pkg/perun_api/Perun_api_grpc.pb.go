@@ -24,6 +24,7 @@ const (
 	PerunAPI_ListNodes_FullMethodName      = "/perun_api.PerunAPI/ListNodes"
 	PerunAPI_CreateService_FullMethodName  = "/perun_api.PerunAPI/CreateService"
 	PerunAPI_RefreshService_FullMethodName = "/perun_api.PerunAPI/RefreshService"
+	PerunAPI_DeployService_FullMethodName  = "/perun_api.PerunAPI/DeployService"
 )
 
 // PerunAPIClient is the client API for PerunAPI service.
@@ -31,10 +32,16 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PerunAPIClient interface {
 	Version(ctx context.Context, in *Version_Request, opts ...grpc.CallOption) (*Version_Response, error)
+	// ConnectVelez - registers new working node with Velez running
 	ConnectVelez(ctx context.Context, in *ConnectVelez_Request, opts ...grpc.CallOption) (*ConnectVelez_Response, error)
+	// ListNodes - returns list of working nodes (Velez) that handle service maintenance
 	ListNodes(ctx context.Context, in *ListNodes_Request, opts ...grpc.CallOption) (*ListNodes_Response, error)
+	// CreateService - registers new service and updates it's information
 	CreateService(ctx context.Context, in *CreateService_Request, opts ...grpc.CallOption) (*CreateService_Response, error)
+	// RefreshService - refreshes service info according to config.yaml
 	RefreshService(ctx context.Context, in *RefreshService_Request, opts ...grpc.CallOption) (*RefreshService_Response, error)
+	// Deploys (or redeploys) service
+	DeployService(ctx context.Context, in *DeployService_Request, opts ...grpc.CallOption) (*DeployService_Response, error)
 }
 
 type perunAPIClient struct {
@@ -90,15 +97,30 @@ func (c *perunAPIClient) RefreshService(ctx context.Context, in *RefreshService_
 	return out, nil
 }
 
+func (c *perunAPIClient) DeployService(ctx context.Context, in *DeployService_Request, opts ...grpc.CallOption) (*DeployService_Response, error) {
+	out := new(DeployService_Response)
+	err := c.cc.Invoke(ctx, PerunAPI_DeployService_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PerunAPIServer is the server API for PerunAPI service.
 // All implementations must embed UnimplementedPerunAPIServer
 // for forward compatibility
 type PerunAPIServer interface {
 	Version(context.Context, *Version_Request) (*Version_Response, error)
+	// ConnectVelez - registers new working node with Velez running
 	ConnectVelez(context.Context, *ConnectVelez_Request) (*ConnectVelez_Response, error)
+	// ListNodes - returns list of working nodes (Velez) that handle service maintenance
 	ListNodes(context.Context, *ListNodes_Request) (*ListNodes_Response, error)
+	// CreateService - registers new service and updates it's information
 	CreateService(context.Context, *CreateService_Request) (*CreateService_Response, error)
+	// RefreshService - refreshes service info according to config.yaml
 	RefreshService(context.Context, *RefreshService_Request) (*RefreshService_Response, error)
+	// Deploys (or redeploys) service
+	DeployService(context.Context, *DeployService_Request) (*DeployService_Response, error)
 	mustEmbedUnimplementedPerunAPIServer()
 }
 
@@ -120,6 +142,9 @@ func (UnimplementedPerunAPIServer) CreateService(context.Context, *CreateService
 }
 func (UnimplementedPerunAPIServer) RefreshService(context.Context, *RefreshService_Request) (*RefreshService_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshService not implemented")
+}
+func (UnimplementedPerunAPIServer) DeployService(context.Context, *DeployService_Request) (*DeployService_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeployService not implemented")
 }
 func (UnimplementedPerunAPIServer) mustEmbedUnimplementedPerunAPIServer() {}
 
@@ -224,6 +249,24 @@ func _PerunAPI_RefreshService_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PerunAPI_DeployService_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeployService_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PerunAPIServer).DeployService(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PerunAPI_DeployService_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PerunAPIServer).DeployService(ctx, req.(*DeployService_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PerunAPI_ServiceDesc is the grpc.ServiceDesc for PerunAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -250,6 +293,10 @@ var PerunAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RefreshService",
 			Handler:    _PerunAPI_RefreshService_Handler,
+		},
+		{
+			MethodName: "DeployService",
+			Handler:    _PerunAPI_DeployService_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -15,6 +15,8 @@ type Data interface {
 	Services() Services
 	Resources() Resources
 
+	DeployLogs() DeployLogs
+
 	Connections() ConnectionCache
 }
 
@@ -43,4 +45,8 @@ type Resources interface {
 type ConnectionCache interface {
 	Add(nodes ...domain.Node)
 	Get(names ...string) ([]domain.Node, error)
+}
+
+type DeployLogs interface {
+	Add(ctx context.Context, log domain.DeployLog) error
 }

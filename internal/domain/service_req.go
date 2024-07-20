@@ -9,3 +9,7 @@ type InitServiceReq struct {
 type RefreshService struct {
 	ServiceName string
 }
+
+type DeployServiceReq struct {
+	ServiceName string
+}

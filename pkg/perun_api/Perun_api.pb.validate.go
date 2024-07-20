@@ -852,6 +852,106 @@ var _ interface {
 	ErrorName() string
 } = RefreshServiceValidationError{}
 
+// Validate checks the field values on DeployService with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *DeployService) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeployService with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DeployServiceMultiError, or
+// nil if none found.
+func (m *DeployService) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeployService) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeployServiceMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeployServiceMultiError is an error wrapping multiple validation errors
+// returned by DeployService.ValidateAll() if the designated constraints
+// aren't met.
+type DeployServiceMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeployServiceMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeployServiceMultiError) AllErrors() []error { return m }
+
+// DeployServiceValidationError is the validation error returned by
+// DeployService.Validate if the designated constraints aren't met.
+type DeployServiceValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeployServiceValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeployServiceValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeployServiceValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeployServiceValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeployServiceValidationError) ErrorName() string { return "DeployServiceValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DeployServiceValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeployService.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeployServiceValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeployServiceValidationError{}
+
 // Validate checks the field values on Version_Request with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -2002,3 +2102,209 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = RefreshService_ResponseValidationError{}
+
+// Validate checks the field values on DeployService_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeployService_Request) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeployService_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeployService_RequestMultiError, or nil if none found.
+func (m *DeployService_Request) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeployService_Request) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for ServiceName
+
+	if len(errors) > 0 {
+		return DeployService_RequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeployService_RequestMultiError is an error wrapping multiple validation
+// errors returned by DeployService_Request.ValidateAll() if the designated
+// constraints aren't met.
+type DeployService_RequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeployService_RequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeployService_RequestMultiError) AllErrors() []error { return m }
+
+// DeployService_RequestValidationError is the validation error returned by
+// DeployService_Request.Validate if the designated constraints aren't met.
+type DeployService_RequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeployService_RequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeployService_RequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeployService_RequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeployService_RequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeployService_RequestValidationError) ErrorName() string {
+	return "DeployService_RequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeployService_RequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeployService_Request.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeployService_RequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeployService_RequestValidationError{}
+
+// Validate checks the field values on DeployService_Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeployService_Response) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeployService_Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeployService_ResponseMultiError, or nil if none found.
+func (m *DeployService_Response) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeployService_Response) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeployService_ResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeployService_ResponseMultiError is an error wrapping multiple validation
+// errors returned by DeployService_Response.ValidateAll() if the designated
+// constraints aren't met.
+type DeployService_ResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeployService_ResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeployService_ResponseMultiError) AllErrors() []error { return m }
+
+// DeployService_ResponseValidationError is the validation error returned by
+// DeployService_Response.Validate if the designated constraints aren't met.
+type DeployService_ResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeployService_ResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeployService_ResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeployService_ResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeployService_ResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeployService_ResponseValidationError) ErrorName() string {
+	return "DeployService_ResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeployService_ResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeployService_Response.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeployService_ResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeployService_ResponseValidationError{}

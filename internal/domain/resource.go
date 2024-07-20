@@ -6,3 +6,8 @@ type Resource struct {
 	ServiceName string
 	State       serviceState
 }
+
+type ResourceDiff struct {
+	StoppedResources []Resource
+	NewResources     []Resource
+}

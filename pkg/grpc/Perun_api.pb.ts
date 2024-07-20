@@ -73,6 +73,14 @@ export type RefreshServiceResponse = Record<string, never>;
 
 export type RefreshService = Record<string, never>;
 
+export type DeployServiceRequest = {
+  serviceName?: string;
+};
+
+export type DeployServiceResponse = Record<string, never>;
+
+export type DeployService = Record<string, never>;
+
 export class PerunAPI {
   static Version(this:void, req: VersionRequest, initReq?: fm.InitReq): Promise<VersionResponse> {
     return fm.fetchRequest<VersionResponse>(`/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
@@ -88,5 +96,8 @@ export class PerunAPI {
   }
   static RefreshService(this:void, req: RefreshServiceRequest, initReq?: fm.InitReq): Promise<RefreshServiceResponse> {
     return fm.fetchRequest<RefreshServiceResponse>(`/service/${req.serviceName}/refresh`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+  }
+  static DeployService(this:void, req: DeployServiceRequest, initReq?: fm.InitReq): Promise<DeployServiceResponse> {
+    return fm.fetchRequest<DeployServiceResponse>(`/service/${req.serviceName}/deploy`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }
