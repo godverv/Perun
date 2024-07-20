@@ -21,5 +21,9 @@ Content-Type: application/json
   "replicas": 1
 }
 
+### Refresh service
+POST {{perun}}/service/red-cart/refresh
+Content-Type: application/json
+
 ### GET Version
 GET http://localhost:53890/version
