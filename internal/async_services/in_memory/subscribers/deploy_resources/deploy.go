@@ -42,6 +42,7 @@ func (d *DeployResources) deploy(ctx context.Context, deploy deployReq) error {
 	// Stage 2 - deploy
 	{
 		var workingNodeResponse *velez_api.Smerd
+		// TODO: VERV-71
 		workingNodeResponse, err = deploy.node.Conn.CreateSmerd(ctx, resConstr.DeployRequest)
 		if err != nil {
 			return errors.Wrap(err, "error creating smerd on node")

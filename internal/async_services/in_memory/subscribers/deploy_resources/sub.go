@@ -43,7 +43,6 @@ func (d *DeployResources) Consume(ctx context.Context, req domain.DeployResource
 	}
 
 	if len(registeredResourcesMap) == 0 {
-		// TODO
 		return nil
 	}
 
@@ -66,7 +65,8 @@ func (d *DeployResources) Consume(ctx context.Context, req domain.DeployResource
 	for _, registeredRes := range registeredResourcesMap {
 		deployed, ok := deployedResourcesMap[registeredRes.Name]
 		if ok {
-			// TODO Service might be registered as instance but not running
+			// TODO: Verv-72
+			// Service might be registered as instance but not running
 			// in this case (if failed) should clean mess and redeploy
 			g.Go(func() error {
 				return d.logAlreadyDeployed(gctx, deployed)
