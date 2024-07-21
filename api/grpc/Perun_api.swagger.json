@@ -16,6 +16,38 @@
     "application/json"
   ],
   "paths": {
+    "/resources/deploy": {
+      "post": {
+        "operationId": "PerunAPI_DeployResource",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/perun_apiDeployResourceResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/perun_apiDeployResourceRequest"
+            }
+          }
+        ],
+        "tags": [
+          "PerunAPI"
+        ]
+      }
+    },
     "/service/new": {
       "post": {
         "summary": "CreateService - registers new service and updates it's information",
@@ -248,6 +280,20 @@
       }
     },
     "perun_apiCreateServiceResponse": {
+      "type": "object"
+    },
+    "perun_apiDeployResourceRequest": {
+      "type": "object",
+      "properties": {
+        "resourceNames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "perun_apiDeployResourceResponse": {
       "type": "object"
     },
     "perun_apiDeployServiceResponse": {

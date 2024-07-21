@@ -446,6 +446,44 @@ func (*DeployService) Descriptor() ([]byte, []int) {
 	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{8}
 }
 
+type DeployResource struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeployResource) Reset() {
+	*x = DeployResource{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_Perun_api_proto_msgTypes[9]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeployResource) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeployResource) ProtoMessage() {}
+
+func (x *DeployResource) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_Perun_api_proto_msgTypes[9]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeployResource.ProtoReflect.Descriptor instead.
+func (*DeployResource) Descriptor() ([]byte, []int) {
+	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{9}
+}
+
 type Version_Request struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
@@ -455,7 +493,7 @@ type Version_Request struct {
 func (x *Version_Request) Reset() {
 	*x = Version_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[9]
+		mi := &file_grpc_Perun_api_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -468,7 +506,7 @@ func (x *Version_Request) String() string {
 func (*Version_Request) ProtoMessage() {}
 
 func (x *Version_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[9]
+	mi := &file_grpc_Perun_api_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -495,7 +533,7 @@ type Version_Response struct {
 func (x *Version_Response) Reset() {
 	*x = Version_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[10]
+		mi := &file_grpc_Perun_api_proto_msgTypes[11]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -508,7 +546,7 @@ func (x *Version_Response) String() string {
 func (*Version_Response) ProtoMessage() {}
 
 func (x *Version_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[10]
+	mi := &file_grpc_Perun_api_proto_msgTypes[11]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -543,7 +581,7 @@ type ConnectVelez_Request struct {
 func (x *ConnectVelez_Request) Reset() {
 	*x = ConnectVelez_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[11]
+		mi := &file_grpc_Perun_api_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -556,7 +594,7 @@ func (x *ConnectVelez_Request) String() string {
 func (*ConnectVelez_Request) ProtoMessage() {}
 
 func (x *ConnectVelez_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[11]
+	mi := &file_grpc_Perun_api_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -595,7 +633,7 @@ type ConnectVelez_Response struct {
 func (x *ConnectVelez_Response) Reset() {
 	*x = ConnectVelez_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[12]
+		mi := &file_grpc_Perun_api_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -608,7 +646,7 @@ func (x *ConnectVelez_Response) String() string {
 func (*ConnectVelez_Response) ProtoMessage() {}
 
 func (x *ConnectVelez_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[12]
+	mi := &file_grpc_Perun_api_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -636,7 +674,7 @@ type ListNodes_Request struct {
 func (x *ListNodes_Request) Reset() {
 	*x = ListNodes_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[13]
+		mi := &file_grpc_Perun_api_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -649,7 +687,7 @@ func (x *ListNodes_Request) String() string {
 func (*ListNodes_Request) ProtoMessage() {}
 
 func (x *ListNodes_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[13]
+	mi := &file_grpc_Perun_api_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -690,7 +728,7 @@ type ListNodes_Response struct {
 func (x *ListNodes_Response) Reset() {
 	*x = ListNodes_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[14]
+		mi := &file_grpc_Perun_api_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -703,7 +741,7 @@ func (x *ListNodes_Response) String() string {
 func (*ListNodes_Response) ProtoMessage() {}
 
 func (x *ListNodes_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[14]
+	mi := &file_grpc_Perun_api_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -740,7 +778,7 @@ type CreateService_Request struct {
 func (x *CreateService_Request) Reset() {
 	*x = CreateService_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[15]
+		mi := &file_grpc_Perun_api_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -753,7 +791,7 @@ func (x *CreateService_Request) String() string {
 func (*CreateService_Request) ProtoMessage() {}
 
 func (x *CreateService_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[15]
+	mi := &file_grpc_Perun_api_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -799,7 +837,7 @@ type CreateService_Response struct {
 func (x *CreateService_Response) Reset() {
 	*x = CreateService_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[16]
+		mi := &file_grpc_Perun_api_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -812,7 +850,7 @@ func (x *CreateService_Response) String() string {
 func (*CreateService_Response) ProtoMessage() {}
 
 func (x *CreateService_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[16]
+	mi := &file_grpc_Perun_api_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -839,7 +877,7 @@ type RefreshService_Request struct {
 func (x *RefreshService_Request) Reset() {
 	*x = RefreshService_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[17]
+		mi := &file_grpc_Perun_api_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -852,7 +890,7 @@ func (x *RefreshService_Request) String() string {
 func (*RefreshService_Request) ProtoMessage() {}
 
 func (x *RefreshService_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[17]
+	mi := &file_grpc_Perun_api_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -884,7 +922,7 @@ type RefreshService_Response struct {
 func (x *RefreshService_Response) Reset() {
 	*x = RefreshService_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[18]
+		mi := &file_grpc_Perun_api_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -897,7 +935,7 @@ func (x *RefreshService_Response) String() string {
 func (*RefreshService_Response) ProtoMessage() {}
 
 func (x *RefreshService_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[18]
+	mi := &file_grpc_Perun_api_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -924,7 +962,7 @@ type DeployService_Request struct {
 func (x *DeployService_Request) Reset() {
 	*x = DeployService_Request{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[19]
+		mi := &file_grpc_Perun_api_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -937,7 +975,7 @@ func (x *DeployService_Request) String() string {
 func (*DeployService_Request) ProtoMessage() {}
 
 func (x *DeployService_Request) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[19]
+	mi := &file_grpc_Perun_api_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -969,7 +1007,7 @@ type DeployService_Response struct {
 func (x *DeployService_Response) Reset() {
 	*x = DeployService_Response{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_grpc_Perun_api_proto_msgTypes[20]
+		mi := &file_grpc_Perun_api_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -982,7 +1020,7 @@ func (x *DeployService_Response) String() string {
 func (*DeployService_Response) ProtoMessage() {}
 
 func (x *DeployService_Response) ProtoReflect() protoreflect.Message {
-	mi := &file_grpc_Perun_api_proto_msgTypes[20]
+	mi := &file_grpc_Perun_api_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -996,6 +1034,91 @@ func (x *DeployService_Response) ProtoReflect() protoreflect.Message {
 // Deprecated: Use DeployService_Response.ProtoReflect.Descriptor instead.
 func (*DeployService_Response) Descriptor() ([]byte, []int) {
 	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{8, 1}
+}
+
+type DeployResource_Request struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ResourceNames []string `protobuf:"bytes,1,rep,name=resource_names,json=resourceNames,proto3" json:"resource_names,omitempty"`
+}
+
+func (x *DeployResource_Request) Reset() {
+	*x = DeployResource_Request{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_Perun_api_proto_msgTypes[22]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeployResource_Request) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeployResource_Request) ProtoMessage() {}
+
+func (x *DeployResource_Request) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_Perun_api_proto_msgTypes[22]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeployResource_Request.ProtoReflect.Descriptor instead.
+func (*DeployResource_Request) Descriptor() ([]byte, []int) {
+	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{9, 0}
+}
+
+func (x *DeployResource_Request) GetResourceNames() []string {
+	if x != nil {
+		return x.ResourceNames
+	}
+	return nil
+}
+
+type DeployResource_Response struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *DeployResource_Response) Reset() {
+	*x = DeployResource_Response{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_grpc_Perun_api_proto_msgTypes[23]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *DeployResource_Response) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*DeployResource_Response) ProtoMessage() {}
+
+func (x *DeployResource_Response) ProtoReflect() protoreflect.Message {
+	mi := &file_grpc_Perun_api_proto_msgTypes[23]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use DeployResource_Response.ProtoReflect.Descriptor instead.
+func (*DeployResource_Response) Descriptor() ([]byte, []int) {
+	return file_grpc_Perun_api_proto_rawDescGZIP(), []int{9, 1}
 }
 
 var File_grpc_Perun_api_proto protoreflect.FileDescriptor
@@ -1069,7 +1192,12 @@ var file_grpc_Perun_api_proto_rawDesc = []byte{
 	0x74, 0x12, 0x21, 0x0a, 0x0c, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d,
 	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0b, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65,
 	0x4e, 0x61, 0x6d, 0x65, 0x1a, 0x0a, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x32, 0x9e, 0x05, 0x0a, 0x08, 0x50, 0x65, 0x72, 0x75, 0x6e, 0x41, 0x50, 0x49, 0x12, 0x54, 0x0a,
+	0x22, 0x4e, 0x0a, 0x0e, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72,
+	0x63, 0x65, 0x1a, 0x30, 0x0a, 0x07, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25, 0x0a,
+	0x0e, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x73, 0x18,
+	0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x0d, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x4e,
+	0x61, 0x6d, 0x65, 0x73, 0x1a, 0x0a, 0x0a, 0x08, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x32, 0x95, 0x06, 0x0a, 0x08, 0x50, 0x65, 0x72, 0x75, 0x6e, 0x41, 0x50, 0x49, 0x12, 0x54, 0x0a,
 	0x07, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x12, 0x1a, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e,
 	0x5f, 0x61, 0x70, 0x69, 0x2e, 0x56, 0x65, 0x72, 0x73, 0x69, 0x6f, 0x6e, 0x2e, 0x52, 0x65, 0x71,
 	0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69,
@@ -1111,8 +1239,15 @@ var file_grpc_Perun_api_proto_rawDesc = []byte{
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x29, 0x82, 0xd3, 0xe4, 0x93, 0x02, 0x23, 0x3a, 0x01,
 	0x2a, 0x22, 0x1e, 0x2f, 0x73, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x2f, 0x7b, 0x73, 0x65, 0x72,
 	0x76, 0x69, 0x63, 0x65, 0x5f, 0x6e, 0x61, 0x6d, 0x65, 0x7d, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f,
-	0x79, 0x42, 0x0c, 0x5a, 0x0a, 0x2f, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x79, 0x12, 0x75, 0x0a, 0x0e, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x12, 0x21, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x2e,
+	0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x2e, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x70, 0x65, 0x72, 0x75, 0x6e, 0x5f, 0x61,
+	0x70, 0x69, 0x2e, 0x44, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63,
+	0x65, 0x2e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x1c, 0x82, 0xd3, 0xe4, 0x93,
+	0x02, 0x16, 0x3a, 0x01, 0x2a, 0x22, 0x11, 0x2f, 0x72, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65,
+	0x73, 0x2f, 0x64, 0x65, 0x70, 0x6c, 0x6f, 0x79, 0x42, 0x0c, 0x5a, 0x0a, 0x2f, 0x70, 0x65, 0x72,
+	0x75, 0x6e, 0x5f, 0x61, 0x70, 0x69, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1127,7 +1262,7 @@ func file_grpc_Perun_api_proto_rawDescGZIP() []byte {
 	return file_grpc_Perun_api_proto_rawDescData
 }
 
-var file_grpc_Perun_api_proto_msgTypes = make([]protoimpl.MessageInfo, 21)
+var file_grpc_Perun_api_proto_msgTypes = make([]protoimpl.MessageInfo, 24)
 var file_grpc_Perun_api_proto_goTypes = []interface{}{
 	(*Version)(nil),                 // 0: perun_api.Version
 	(*Node)(nil),                    // 1: perun_api.Node
@@ -1138,38 +1273,43 @@ var file_grpc_Perun_api_proto_goTypes = []interface{}{
 	(*CreateService)(nil),           // 6: perun_api.CreateService
 	(*RefreshService)(nil),          // 7: perun_api.RefreshService
 	(*DeployService)(nil),           // 8: perun_api.DeployService
-	(*Version_Request)(nil),         // 9: perun_api.Version.Request
-	(*Version_Response)(nil),        // 10: perun_api.Version.Response
-	(*ConnectVelez_Request)(nil),    // 11: perun_api.ConnectVelez.Request
-	(*ConnectVelez_Response)(nil),   // 12: perun_api.ConnectVelez.Response
-	(*ListNodes_Request)(nil),       // 13: perun_api.ListNodes.Request
-	(*ListNodes_Response)(nil),      // 14: perun_api.ListNodes.Response
-	(*CreateService_Request)(nil),   // 15: perun_api.CreateService.Request
-	(*CreateService_Response)(nil),  // 16: perun_api.CreateService.Response
-	(*RefreshService_Request)(nil),  // 17: perun_api.RefreshService.Request
-	(*RefreshService_Response)(nil), // 18: perun_api.RefreshService.Response
-	(*DeployService_Request)(nil),   // 19: perun_api.DeployService.Request
-	(*DeployService_Response)(nil),  // 20: perun_api.DeployService.Response
+	(*DeployResource)(nil),          // 9: perun_api.DeployResource
+	(*Version_Request)(nil),         // 10: perun_api.Version.Request
+	(*Version_Response)(nil),        // 11: perun_api.Version.Response
+	(*ConnectVelez_Request)(nil),    // 12: perun_api.ConnectVelez.Request
+	(*ConnectVelez_Response)(nil),   // 13: perun_api.ConnectVelez.Response
+	(*ListNodes_Request)(nil),       // 14: perun_api.ListNodes.Request
+	(*ListNodes_Response)(nil),      // 15: perun_api.ListNodes.Response
+	(*CreateService_Request)(nil),   // 16: perun_api.CreateService.Request
+	(*CreateService_Response)(nil),  // 17: perun_api.CreateService.Response
+	(*RefreshService_Request)(nil),  // 18: perun_api.RefreshService.Request
+	(*RefreshService_Response)(nil), // 19: perun_api.RefreshService.Response
+	(*DeployService_Request)(nil),   // 20: perun_api.DeployService.Request
+	(*DeployService_Response)(nil),  // 21: perun_api.DeployService.Response
+	(*DeployResource_Request)(nil),  // 22: perun_api.DeployResource.Request
+	(*DeployResource_Response)(nil), // 23: perun_api.DeployResource.Response
 }
 var file_grpc_Perun_api_proto_depIdxs = []int32{
 	1,  // 0: perun_api.ConnectVelez.Request.node:type_name -> perun_api.Node
 	2,  // 1: perun_api.ConnectVelez.Request.ssh:type_name -> perun_api.Ssh
 	4,  // 2: perun_api.ListNodes.Request.paging:type_name -> perun_api.ListPaging
 	1,  // 3: perun_api.ListNodes.Response.nodes:type_name -> perun_api.Node
-	9,  // 4: perun_api.PerunAPI.Version:input_type -> perun_api.Version.Request
-	11, // 5: perun_api.PerunAPI.ConnectVelez:input_type -> perun_api.ConnectVelez.Request
-	13, // 6: perun_api.PerunAPI.ListNodes:input_type -> perun_api.ListNodes.Request
-	15, // 7: perun_api.PerunAPI.CreateService:input_type -> perun_api.CreateService.Request
-	17, // 8: perun_api.PerunAPI.RefreshService:input_type -> perun_api.RefreshService.Request
-	19, // 9: perun_api.PerunAPI.DeployService:input_type -> perun_api.DeployService.Request
-	10, // 10: perun_api.PerunAPI.Version:output_type -> perun_api.Version.Response
-	12, // 11: perun_api.PerunAPI.ConnectVelez:output_type -> perun_api.ConnectVelez.Response
-	14, // 12: perun_api.PerunAPI.ListNodes:output_type -> perun_api.ListNodes.Response
-	16, // 13: perun_api.PerunAPI.CreateService:output_type -> perun_api.CreateService.Response
-	18, // 14: perun_api.PerunAPI.RefreshService:output_type -> perun_api.RefreshService.Response
-	20, // 15: perun_api.PerunAPI.DeployService:output_type -> perun_api.DeployService.Response
-	10, // [10:16] is the sub-list for method output_type
-	4,  // [4:10] is the sub-list for method input_type
+	10, // 4: perun_api.PerunAPI.Version:input_type -> perun_api.Version.Request
+	12, // 5: perun_api.PerunAPI.ConnectVelez:input_type -> perun_api.ConnectVelez.Request
+	14, // 6: perun_api.PerunAPI.ListNodes:input_type -> perun_api.ListNodes.Request
+	16, // 7: perun_api.PerunAPI.CreateService:input_type -> perun_api.CreateService.Request
+	18, // 8: perun_api.PerunAPI.RefreshService:input_type -> perun_api.RefreshService.Request
+	20, // 9: perun_api.PerunAPI.DeployService:input_type -> perun_api.DeployService.Request
+	22, // 10: perun_api.PerunAPI.DeployResource:input_type -> perun_api.DeployResource.Request
+	11, // 11: perun_api.PerunAPI.Version:output_type -> perun_api.Version.Response
+	13, // 12: perun_api.PerunAPI.ConnectVelez:output_type -> perun_api.ConnectVelez.Response
+	15, // 13: perun_api.PerunAPI.ListNodes:output_type -> perun_api.ListNodes.Response
+	17, // 14: perun_api.PerunAPI.CreateService:output_type -> perun_api.CreateService.Response
+	19, // 15: perun_api.PerunAPI.RefreshService:output_type -> perun_api.RefreshService.Response
+	21, // 16: perun_api.PerunAPI.DeployService:output_type -> perun_api.DeployService.Response
+	23, // 17: perun_api.PerunAPI.DeployResource:output_type -> perun_api.DeployResource.Response
+	11, // [11:18] is the sub-list for method output_type
+	4,  // [4:11] is the sub-list for method input_type
 	4,  // [4:4] is the sub-list for extension type_name
 	4,  // [4:4] is the sub-list for extension extendee
 	0,  // [0:4] is the sub-list for field type_name
@@ -1290,7 +1430,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Version_Request); i {
+			switch v := v.(*DeployResource); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1302,7 +1442,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*Version_Response); i {
+			switch v := v.(*Version_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1314,7 +1454,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConnectVelez_Request); i {
+			switch v := v.(*Version_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1326,7 +1466,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ConnectVelez_Response); i {
+			switch v := v.(*ConnectVelez_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1338,7 +1478,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListNodes_Request); i {
+			switch v := v.(*ConnectVelez_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1350,7 +1490,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*ListNodes_Response); i {
+			switch v := v.(*ListNodes_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1362,7 +1502,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateService_Request); i {
+			switch v := v.(*ListNodes_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1374,7 +1514,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*CreateService_Response); i {
+			switch v := v.(*CreateService_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1386,7 +1526,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshService_Request); i {
+			switch v := v.(*CreateService_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1398,7 +1538,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RefreshService_Response); i {
+			switch v := v.(*RefreshService_Request); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1410,7 +1550,7 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*DeployService_Request); i {
+			switch v := v.(*RefreshService_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1422,7 +1562,43 @@ func file_grpc_Perun_api_proto_init() {
 			}
 		}
 		file_grpc_Perun_api_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeployService_Request); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_grpc_Perun_api_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeployService_Response); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_grpc_Perun_api_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeployResource_Request); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_grpc_Perun_api_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*DeployResource_Response); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1435,14 +1611,14 @@ func file_grpc_Perun_api_proto_init() {
 		}
 	}
 	file_grpc_Perun_api_proto_msgTypes[1].OneofWrappers = []interface{}{}
-	file_grpc_Perun_api_proto_msgTypes[13].OneofWrappers = []interface{}{}
+	file_grpc_Perun_api_proto_msgTypes[14].OneofWrappers = []interface{}{}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_grpc_Perun_api_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   21,
+			NumMessages:   24,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

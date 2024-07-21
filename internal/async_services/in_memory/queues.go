@@ -3,6 +3,7 @@ package in_memory
 import (
 	"github.com/Red-Sock/Perun/internal/async_services"
 	"github.com/Red-Sock/Perun/internal/async_services/in_memory/publishers"
+	"github.com/Red-Sock/Perun/internal/async_services/in_memory/subscribers/deploy_resources"
 	"github.com/Red-Sock/Perun/internal/async_services/in_memory/subscribers/deploy_service"
 	"github.com/Red-Sock/Perun/internal/async_services/in_memory/subscribers/init_service"
 	"github.com/Red-Sock/Perun/internal/async_services/in_memory/subscribers/refresh_service_config"
@@ -15,13 +16,15 @@ type Queue struct {
 	initServiceQueue     async_services.Queue[domain.InitServiceReq]
 	syncServiceInfoQueue async_services.Queue[domain.RefreshService]
 
-	deployServiceQueue async_services.Queue[domain.DeployServiceReq]
+	deployResourceQueue async_services.Queue[domain.DeployResourcesReq]
+	deployServiceQueue  async_services.Queue[domain.DeployServiceReq]
 }
 
 func New(data storage.Data, srv service.Services) *Queue {
 	q := &Queue{
 		initServiceQueue:     publishers.New[domain.InitServiceReq](),
 		syncServiceInfoQueue: publishers.New[domain.RefreshService](),
+		deployResourceQueue:  publishers.New[domain.DeployResourcesReq](),
 		deployServiceQueue:   publishers.New[domain.DeployServiceReq](),
 	}
 
@@ -29,6 +32,7 @@ func New(data storage.Data, srv service.Services) *Queue {
 
 	q.syncServiceInfoQueue.Subscribe(refresh_service_config.New(data, srv))
 
+	q.deployResourceQueue.Subscribe(deploy_resources.New(data, srv))
 	q.deployServiceQueue.Subscribe(deploy_service.New(data, srv))
 	return q
 }
@@ -43,11 +47,13 @@ func (q *Queue) Stop() error {
 func (q *Queue) InitServiceQueue() async_services.ConsumerQueue[domain.InitServiceReq] {
 	return q.initServiceQueue
 }
-
 func (q *Queue) RefreshServiceQueue() async_services.ConsumerQueue[domain.RefreshService] {
 	return q.syncServiceInfoQueue
 }
 
+func (q *Queue) DeployResourceQueue() async_services.ConsumerQueue[domain.DeployResourcesReq] {
+	return q.deployResourceQueue
+}
 func (q *Queue) DeployServiceQueue() async_services.ConsumerQueue[domain.DeployServiceReq] {
 	return q.deployServiceQueue
 }

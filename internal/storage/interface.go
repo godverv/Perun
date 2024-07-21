@@ -14,6 +14,8 @@ type Data interface {
 	Nodes() Nodes
 	Services() Services
 	Resources() Resources
+	Instances() Instances
+	DeployTemplates() ResourceConstructors
 
 	DeployLogs() DeployLogs
 
@@ -40,6 +42,8 @@ type Services interface {
 type Resources interface {
 	ListForService(ctx context.Context, name string) ([]domain.Resource, error)
 	Upsert(ctx context.Context, deps ...domain.Resource) error
+
+	List(ctx context.Context, req domain.DeployResourcesReq) ([]domain.Resource, error)
 }
 
 type ConnectionCache interface {
@@ -49,4 +53,15 @@ type ConnectionCache interface {
 
 type DeployLogs interface {
 	Add(ctx context.Context, log domain.DeployLog) error
+}
+
+type Instances interface {
+	List(ctx context.Context, req domain.ListInstancesReq) ([]domain.Instance, error)
+	Add(ctx context.Context, instance domain.Instance) error
+
+	Update(ctx context.Context, instances domain.Instance) error
+}
+
+type ResourceConstructors interface {
+	GetByResourceName(ctx context.Context, resources string) (domain.ResourceConstructor, error)
 }

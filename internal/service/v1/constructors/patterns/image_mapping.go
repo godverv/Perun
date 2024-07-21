@@ -5,11 +5,11 @@ import (
 )
 
 const (
-	PostgresImage = "postgres:16"
+	Postgres16Image = "postgres:16"
 )
 
 var typeToImageMapping = map[string]string{
-	resources.PostgresResourceName: PostgresImage,
+	resources.PostgresResourceName: Postgres16Image,
 }
 
 func GetImageNameByType(resName string) string {

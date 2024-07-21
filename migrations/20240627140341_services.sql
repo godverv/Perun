@@ -1,5 +1,8 @@
 -- +goose Up
 -- +goose StatementBegin
+
+-- Table "services" contains information about services registered in system
+-- this is virtual services information.
 CREATE TABLE IF NOT EXISTS services
 (
     name     TEXT PRIMARY KEY,

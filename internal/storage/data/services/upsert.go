@@ -8,7 +8,7 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (s *Services) Upsert(ctx context.Context, services ...domain.Service) error {
+func (s *Provider) Upsert(ctx context.Context, services ...domain.Service) error {
 	stmp, err := s.db.PrepareContext(ctx, `
 		INSERT INTO services 
 			   ( name, image, state, replicas)

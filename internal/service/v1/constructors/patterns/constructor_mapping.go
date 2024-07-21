@@ -12,8 +12,8 @@ type InstanceConstructor func(resources matreshka.DataSources, resourceName stri
 type instanceStorage map[string]InstanceConstructor
 
 var is = instanceStorage{
-	resources.PostgresResourceName: Postgres,
-	resources.SqliteResourceName:   Sqlite,
+	Postgres16Image:              Postgres,
+	resources.SqliteResourceName: Sqlite,
 }
 
 func GetConstructor(name string) InstanceConstructor {

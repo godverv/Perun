@@ -4,12 +4,12 @@ import (
 	"database/sql"
 )
 
-type Services struct {
+type Provider struct {
 	db *sql.DB
 }
 
-func NewStorage(db *sql.DB) *Services {
-	return &Services{
+func NewStorage(db *sql.DB) *Provider {
+	return &Provider{
 		db: db,
 	}
 }

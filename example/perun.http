@@ -27,8 +27,15 @@ Content-Type: application/json
 
 ### Refresh service
 POST {{perun}}/service/red-cart/refresh
+
+
+### Deploy resources for service
+POST {{perun}}/resources/deploy
 Content-Type: application/json
 
+{
+  "resourceNames": ["red-cart_postgres"]
+}
 
 ### Deploy service
 POST {{perun}}/service/red-cart/deploy

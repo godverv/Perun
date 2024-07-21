@@ -9,7 +9,7 @@ import (
 	"github.com/Red-Sock/Perun/internal/storage"
 )
 
-func (s *Services) List(ctx context.Context, serviceNamePattern string) ([]domain.Service, error) {
+func (s *Provider) List(ctx context.Context, serviceNamePattern string) ([]domain.Service, error) {
 	rows, err := s.db.QueryContext(ctx, `
 		SELECT 
 			name,

@@ -8,7 +8,7 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (s *Services) UpdateState(ctx context.Context, service domain.Service) error {
+func (s *Provider) UpdateState(ctx context.Context, service domain.Service) error {
 	_, err := s.db.ExecContext(ctx, `
 		UPDATE services 
 		SET 

@@ -8,7 +8,7 @@ import (
 	"github.com/Red-Sock/Perun/internal/domain"
 )
 
-func (s *Services) Get(ctx context.Context, name string) (domain.Service, error) {
+func (s *Provider) Get(ctx context.Context, name string) (domain.Service, error) {
 	scanner := s.db.QueryRowContext(ctx, `
 		SELECT 
 			name,

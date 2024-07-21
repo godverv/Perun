@@ -8,6 +8,7 @@ const (
 	ServiceStateRunningOk
 	ServiceStateRunningPartially
 	ErrorDuringDeploy
+	ErrorAlreadyDeployed
 )
 
 type serviceState int

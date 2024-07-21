@@ -2,40 +2,53 @@ package resources
 
 import (
 	"context"
+	"strconv"
+	"strings"
 
 	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/Red-Sock/Perun/internal/domain"
-	"github.com/Red-Sock/Perun/internal/storage"
 )
 
-func (p *Provider) ListForService(ctx context.Context, name string) ([]domain.Resource, error) {
-	row, err := p.conn.QueryContext(ctx, ``, name)
-	if err != nil {
-		return nil, errors.Wrap(err, "error querying database")
-	}
+func (p *Provider) List(ctx context.Context, req domain.DeployResourcesReq) ([]domain.Resource, error) {
+	sb := strings.Builder{}
+	sb.WriteString(`
+			SELECT 
+			    name,
+				service_name,
+				image,
+				state
+			FROM resources
+			WHERE name IN (		
+`)
 
-	defer row.Close()
+	var args []any
+	for idx := range req.ResourcesNames {
+		sb.WriteByte('$')
+		sb.WriteString(strconv.Itoa(idx + 1))
+		if idx < len(req.ResourcesNames)-1 {
+			sb.WriteByte(',')
+		}
+		args = append(args, req.ResourcesNames[idx])
+	}
+	sb.WriteByte(')')
+	q := sb.String()
+	rows, err := p.conn.QueryContext(ctx, q, args...)
+	if err != nil {
+		return nil, errors.Wrap(err, "error listing resources")
+	}
+	defer rows.Close()
 
 	out := make([]domain.Resource, 0)
-	for row.Next() {
-		var res domain.Resource
-		res, err = toResource(row)
+	for rows.Next() {
+		var r domain.Resource
+		r, err = toResource(rows)
 		if err != nil {
-			return nil, errors.Wrap(err, "error scanning db response")
+			return nil, errors.Wrap(err, "error scanning")
 		}
 
-		out = append(out, res)
+		out = append(out, r)
 	}
 
 	return out, nil
-}
-
-func toResource(row storage.Row) (r domain.Resource, err error) {
-	return r, row.Scan(
-		&r.Name,
-		&r.ServiceName,
-		&r.Image,
-		&r.State,
-	)
 }

@@ -1,5 +1,7 @@
 -- +goose Up
 -- +goose StatementBegin
+
+-- Table "deploy_log" is used to log deployment sequences
 CREATE TABLE IF NOT EXISTS deploy_log
 (
     id     INTEGER PRIMARY KEY AUTOINCREMENT,

@@ -952,6 +952,106 @@ var _ interface {
 	ErrorName() string
 } = DeployServiceValidationError{}
 
+// Validate checks the field values on DeployResource with the rules defined in
+// the proto definition for this message. If any rules are violated, the first
+// error encountered is returned, or nil if there are no violations.
+func (m *DeployResource) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeployResource with the rules defined
+// in the proto definition for this message. If any rules are violated, the
+// result is a list of violation errors wrapped in DeployResourceMultiError,
+// or nil if none found.
+func (m *DeployResource) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeployResource) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeployResourceMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeployResourceMultiError is an error wrapping multiple validation errors
+// returned by DeployResource.ValidateAll() if the designated constraints
+// aren't met.
+type DeployResourceMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeployResourceMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeployResourceMultiError) AllErrors() []error { return m }
+
+// DeployResourceValidationError is the validation error returned by
+// DeployResource.Validate if the designated constraints aren't met.
+type DeployResourceValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeployResourceValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeployResourceValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeployResourceValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeployResourceValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeployResourceValidationError) ErrorName() string { return "DeployResourceValidationError" }
+
+// Error satisfies the builtin error interface
+func (e DeployResourceValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeployResource.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeployResourceValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeployResourceValidationError{}
+
 // Validate checks the field values on Version_Request with the rules defined
 // in the proto definition for this message. If any rules are violated, the
 // first error encountered is returned, or nil if there are no violations.
@@ -2308,3 +2408,207 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = DeployService_ResponseValidationError{}
+
+// Validate checks the field values on DeployResource_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeployResource_Request) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeployResource_Request with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeployResource_RequestMultiError, or nil if none found.
+func (m *DeployResource_Request) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeployResource_Request) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeployResource_RequestMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeployResource_RequestMultiError is an error wrapping multiple validation
+// errors returned by DeployResource_Request.ValidateAll() if the designated
+// constraints aren't met.
+type DeployResource_RequestMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeployResource_RequestMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeployResource_RequestMultiError) AllErrors() []error { return m }
+
+// DeployResource_RequestValidationError is the validation error returned by
+// DeployResource_Request.Validate if the designated constraints aren't met.
+type DeployResource_RequestValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeployResource_RequestValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeployResource_RequestValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeployResource_RequestValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeployResource_RequestValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeployResource_RequestValidationError) ErrorName() string {
+	return "DeployResource_RequestValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeployResource_RequestValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeployResource_Request.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeployResource_RequestValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeployResource_RequestValidationError{}
+
+// Validate checks the field values on DeployResource_Response with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *DeployResource_Response) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on DeployResource_Response with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// DeployResource_ResponseMultiError, or nil if none found.
+func (m *DeployResource_Response) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *DeployResource_Response) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	if len(errors) > 0 {
+		return DeployResource_ResponseMultiError(errors)
+	}
+
+	return nil
+}
+
+// DeployResource_ResponseMultiError is an error wrapping multiple validation
+// errors returned by DeployResource_Response.ValidateAll() if the designated
+// constraints aren't met.
+type DeployResource_ResponseMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m DeployResource_ResponseMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m DeployResource_ResponseMultiError) AllErrors() []error { return m }
+
+// DeployResource_ResponseValidationError is the validation error returned by
+// DeployResource_Response.Validate if the designated constraints aren't met.
+type DeployResource_ResponseValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e DeployResource_ResponseValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e DeployResource_ResponseValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e DeployResource_ResponseValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e DeployResource_ResponseValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e DeployResource_ResponseValidationError) ErrorName() string {
+	return "DeployResource_ResponseValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e DeployResource_ResponseValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sDeployResource_Response.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = DeployResource_ResponseValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = DeployResource_ResponseValidationError{}

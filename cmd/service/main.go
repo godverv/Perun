@@ -101,10 +101,7 @@ func initStorage(cfg config.Config) (storage.Data, error) {
 		}
 	}
 
-	s, err := data.NewStorage(provider)
-	if err != nil {
-		return nil, errors.Wrap(err, "error creating storage")
-	}
+	s := data.NewStorage(provider)
 
 	return s, nil
 }

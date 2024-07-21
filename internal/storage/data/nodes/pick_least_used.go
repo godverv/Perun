@@ -26,7 +26,7 @@ func (p *Provider) ListLeastUsedNodes(ctx context.Context, req domain.PickNodesR
 		LEFT JOIN instances inst ON inst.node_name = node.name
 		
 		GROUP BY node.name
-		ORDER BY count(inst.service_name)
+		ORDER BY count(inst.name)
 		LIMIT $1
 `, req.NodesCount)
 	if err != nil {

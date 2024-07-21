@@ -22,7 +22,8 @@ type Impl struct {
 	initServiceQueue    async_services.ConsumerQueue[domain.InitServiceReq]
 	refreshServiceQueue async_services.ConsumerQueue[domain.RefreshService]
 
-	deployServiceQueue async_services.ConsumerQueue[domain.DeployServiceReq]
+	deployResourceQueue async_services.ConsumerQueue[domain.DeployResourcesReq]
+	deployServiceQueue  async_services.ConsumerQueue[domain.DeployServiceReq]
 
 	version string
 }
@@ -34,6 +35,8 @@ func New(cfg config.Config, nodeService service.NodesService, queue async_servic
 
 		initServiceQueue:    queue.InitServiceQueue(),
 		refreshServiceQueue: queue.RefreshServiceQueue(),
+
+		deployResourceQueue: queue.DeployResourceQueue(),
 		deployServiceQueue:  queue.DeployServiceQueue(),
 	}
 }

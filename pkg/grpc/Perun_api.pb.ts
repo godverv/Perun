@@ -81,6 +81,14 @@ export type DeployServiceResponse = Record<string, never>;
 
 export type DeployService = Record<string, never>;
 
+export type DeployResourceRequest = {
+  resourceNames?: string[];
+};
+
+export type DeployResourceResponse = Record<string, never>;
+
+export type DeployResource = Record<string, never>;
+
 export class PerunAPI {
   static Version(this:void, req: VersionRequest, initReq?: fm.InitReq): Promise<VersionResponse> {
     return fm.fetchRequest<VersionResponse>(`/version?${fm.renderURLSearchParams(req, [])}`, {...initReq, method: "GET"});
@@ -99,5 +107,8 @@ export class PerunAPI {
   }
   static DeployService(this:void, req: DeployServiceRequest, initReq?: fm.InitReq): Promise<DeployServiceResponse> {
     return fm.fetchRequest<DeployServiceResponse>(`/service/${req.serviceName}/deploy`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
+  }
+  static DeployResource(this:void, req: DeployResourceRequest, initReq?: fm.InitReq): Promise<DeployResourceResponse> {
+    return fm.fetchRequest<DeployResourceResponse>(`/resources/deploy`, {...initReq, method: "POST", body: JSON.stringify(req, fm.replacer)});
   }
 }

@@ -26,7 +26,7 @@ func Postgres(resources matreshka.DataSources, resourceName, serviceName string)
 
 	dependency.Constructor = &velez_api.CreateSmerd_Request{
 		Name:      dependency.Name,
-		ImageName: PostgresImage,
+		ImageName: Postgres16Image,
 		Hardware:  &velez_api.Container_Hardware{},
 		Settings: &velez_api.Container_Settings{
 			Ports: []*velez_api.PortBindings{

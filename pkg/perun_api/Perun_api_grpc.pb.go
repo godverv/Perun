@@ -25,6 +25,7 @@ const (
 	PerunAPI_CreateService_FullMethodName  = "/perun_api.PerunAPI/CreateService"
 	PerunAPI_RefreshService_FullMethodName = "/perun_api.PerunAPI/RefreshService"
 	PerunAPI_DeployService_FullMethodName  = "/perun_api.PerunAPI/DeployService"
+	PerunAPI_DeployResource_FullMethodName = "/perun_api.PerunAPI/DeployResource"
 )
 
 // PerunAPIClient is the client API for PerunAPI service.
@@ -42,6 +43,7 @@ type PerunAPIClient interface {
 	RefreshService(ctx context.Context, in *RefreshService_Request, opts ...grpc.CallOption) (*RefreshService_Response, error)
 	// Deploys (or redeploys) service
 	DeployService(ctx context.Context, in *DeployService_Request, opts ...grpc.CallOption) (*DeployService_Response, error)
+	DeployResource(ctx context.Context, in *DeployResource_Request, opts ...grpc.CallOption) (*DeployResource_Response, error)
 }
 
 type perunAPIClient struct {
@@ -106,6 +108,15 @@ func (c *perunAPIClient) DeployService(ctx context.Context, in *DeployService_Re
 	return out, nil
 }
 
+func (c *perunAPIClient) DeployResource(ctx context.Context, in *DeployResource_Request, opts ...grpc.CallOption) (*DeployResource_Response, error) {
+	out := new(DeployResource_Response)
+	err := c.cc.Invoke(ctx, PerunAPI_DeployResource_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PerunAPIServer is the server API for PerunAPI service.
 // All implementations must embed UnimplementedPerunAPIServer
 // for forward compatibility
@@ -121,6 +132,7 @@ type PerunAPIServer interface {
 	RefreshService(context.Context, *RefreshService_Request) (*RefreshService_Response, error)
 	// Deploys (or redeploys) service
 	DeployService(context.Context, *DeployService_Request) (*DeployService_Response, error)
+	DeployResource(context.Context, *DeployResource_Request) (*DeployResource_Response, error)
 	mustEmbedUnimplementedPerunAPIServer()
 }
 
@@ -145,6 +157,9 @@ func (UnimplementedPerunAPIServer) RefreshService(context.Context, *RefreshServi
 }
 func (UnimplementedPerunAPIServer) DeployService(context.Context, *DeployService_Request) (*DeployService_Response, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeployService not implemented")
+}
+func (UnimplementedPerunAPIServer) DeployResource(context.Context, *DeployResource_Request) (*DeployResource_Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeployResource not implemented")
 }
 func (UnimplementedPerunAPIServer) mustEmbedUnimplementedPerunAPIServer() {}
 
@@ -267,6 +282,24 @@ func _PerunAPI_DeployService_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PerunAPI_DeployResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeployResource_Request)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PerunAPIServer).DeployResource(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: PerunAPI_DeployResource_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PerunAPIServer).DeployResource(ctx, req.(*DeployResource_Request))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PerunAPI_ServiceDesc is the grpc.ServiceDesc for PerunAPI service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -297,6 +330,10 @@ var PerunAPI_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeployService",
 			Handler:    _PerunAPI_DeployService_Handler,
+		},
+		{
+			MethodName: "DeployResource",
+			Handler:    _PerunAPI_DeployResource_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
