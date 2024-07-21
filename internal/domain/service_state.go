@@ -7,8 +7,9 @@ const (
 
 	ServiceStateRunningOk
 	ServiceStateRunningPartially
-	ErrorDuringDeploy
-	ErrorAlreadyDeployed
+	ServiceStateErrorDuringDeploy
+	ServiceStateErrorAlreadyDeployed
+	ServiceStateDeployDeleted
 )
 
 type serviceState int

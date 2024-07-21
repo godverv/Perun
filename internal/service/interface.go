@@ -12,6 +12,7 @@ type Services interface {
 	Nodes() NodesService
 	Config() ConfigService
 	Resources() ResourceService
+	DeployLog() DeployLog
 }
 
 type NodesService interface {
@@ -27,4 +28,13 @@ type ConfigService interface {
 
 type ResourceService interface {
 	GetDiffForService(ctx context.Context, serviceName string) (domain.ResourceDiff, error)
+}
+
+type DeployLog interface {
+	AlreadyDeployed(ctx context.Context, inst domain.Instance) error
+	DeployStarted(ctx context.Context, inst domain.Instance) error
+	DeploySuccessful(ctx context.Context, inst domain.Instance) error
+	DeployPatternNotFounds(ctx context.Context, res domain.Resource) error
+	WorkingNodeReturnedZeroPorts(ctx context.Context, inst domain.Instance) error
+	DeleteFailedDeployment(ctx context.Context, inst domain.Instance) error
 }

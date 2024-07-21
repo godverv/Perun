@@ -15,7 +15,7 @@ type Data interface {
 	Services() Services
 	Resources() Resources
 	Instances() Instances
-	DeployTemplates() ResourceConstructors
+	DeployTemplates() DeployPatterns
 
 	DeployLogs() DeployLogs
 
@@ -60,8 +60,9 @@ type Instances interface {
 	Add(ctx context.Context, instance domain.Instance) error
 
 	Update(ctx context.Context, instances domain.Instance) error
+	Delete(ctx context.Context, name string) error
 }
 
-type ResourceConstructors interface {
+type DeployPatterns interface {
 	GetByResourceName(ctx context.Context, resources string) (domain.ResourceConstructor, error)
 }

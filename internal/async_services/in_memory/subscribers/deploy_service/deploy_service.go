@@ -40,7 +40,7 @@ func (d *DeployService) Consume(ctx context.Context, req domain.DeployServiceReq
 func (d *DeployService) diffInResources(ctx context.Context, req domain.DeployServiceReq, diff domain.ResourceDiff) error {
 	log := domain.DeployLog{
 		Name:  req.ServiceName,
-		State: domain.ErrorDuringDeploy,
+		State: domain.ServiceStateErrorDuringDeploy,
 	}
 	sb := strings.Builder{}
 

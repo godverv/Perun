@@ -62,7 +62,7 @@ func (s *Store) Instances() storage.Instances {
 	return s.instances
 }
 
-func (s *Store) DeployTemplates() storage.ResourceConstructors {
+func (s *Store) DeployTemplates() storage.DeployPatterns {
 	return s.deployTemplates
 }
 

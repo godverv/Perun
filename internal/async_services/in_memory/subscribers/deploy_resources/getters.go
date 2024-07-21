@@ -6,6 +6,7 @@ import (
 	errors "github.com/Red-Sock/trace-errors"
 
 	"github.com/Red-Sock/Perun/internal/domain"
+	"github.com/Red-Sock/Perun/internal/utils/loop_over"
 )
 
 func (d *DeployResources) getResources(ctx context.Context, resourcesNames []string) (map[string]domain.Resource, error) {
@@ -15,6 +16,10 @@ func (d *DeployResources) getResources(ctx context.Context, resourcesNames []str
 	resources, err := d.resourcesData.List(ctx, listResourcesReq)
 	if err != nil {
 		return nil, errors.Wrap(err, "error listing resources")
+	}
+
+	if len(resources) == 0 {
+		return nil, errors.New("resources not found")
 	}
 
 	out := make(map[string]domain.Resource)
@@ -41,4 +46,17 @@ func (d *DeployResources) getDeployedResources(ctx context.Context, resourcesNam
 	}
 
 	return out, nil
+}
+
+func (d *DeployResources) getNodeIterator(ctx context.Context, nodesCount uint32) (func() domain.Node, error) {
+	pickNodes := domain.PickNodesReq{
+		NodesCount: nodesCount,
+	}
+	n, err := d.nodes.PickNodes(ctx, pickNodes)
+	if err != nil {
+		return nil, errors.Wrap(err, "error picking nodes")
+	}
+
+	nextNode := loop_over.LoopOver(n)
+	return nextNode, nil
 }
